@@ -1,0 +1,22 @@
+# 忽略文件
+.DS_Store
+*.pyc
+__pycache__/
+data/
+*.json
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+Thumbs.db
+
+# 构建临时文件
+*.log
+
+# 子仓库的临时文件（不推送到 publish-pages）
+**/node_modules/
+**/.next/
+**/.git/
+**/out/

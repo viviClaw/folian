@@ -1036,7 +1036,8 @@ body {
       <div class="avatar-ring"></div>
       <div class="avatar-glow"></div>
       <div class="avatar-core">
-        <img src="./assets/avatar.webp" alt="Avatar" style="width: 80%; height: 80%; border-radius: 50%;">
+        <img src="./assets/avatar.webp" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 80%; height: 80%; border-radius: 50%; object-fit: cover;">
+        <span style="display: none; font-size: 3.5rem;">🎭</span>
       </div>
     </div>
     

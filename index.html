@@ -1234,7 +1234,8 @@ body {
       <div class="avatar-ring"></div>
       <div class="avatar-glow"></div>
       <div class="avatar-core">
-        <img src="./assets/avatar.webp" alt="Avatar" style="width: 80%; height: 80%; border-radius: 50%;">
+        <img src="./assets/avatar.webp" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width: 80%; height: 80%; border-radius: 50%; object-fit: cover;">
+        <span style="display: none; font-size: 3.5rem;">🎭</span>
       </div>
     </div>
     
@@ -1246,8 +1247,8 @@ body {
     </p>
     
     <div class="quote-card">
-      <p class="quote-text">旅行不只是为了抵达目的地，更是为了沿途的风景</p>
-      <p class="quote-source">—— Frieren <span class="quote-context">· 旅程的价值</span></p>
+      <p class="quote-text">魔法是为了让人们的生活更加便利而存在的</p>
+      <p class="quote-source">—— Frieren <span class="quote-context">· 魔法的本质</span></p>
     </div>
   </section>
   

@@ -8,7 +8,7 @@ const BASE_URL = 'https://viviclaw.github.io/folian';
 // 导航链接配置
 const navLinks = [
   { name: '首页', url: '/', icon: '🏠' },
-  { name: '资讯', url: '/diary/', icon: '📰' },
+  { name: '资讯', url: '/cate/', icon: '📰' },
   { name: '记账', url: '/accounting.html', icon: '💰' },
 ];
 

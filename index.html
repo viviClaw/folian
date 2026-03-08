@@ -1,69 +1,247 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>新闻播报 - 文件列表</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit',-apple-system,sans-serif;background:#0a0a0f;background-image:radial-gradient(ellipse at top,#1a1a2e 0%,#0a0a0f 70%);color:#fff;min-height:100vh;padding:20px}
-.container{max-width:800px;margin:0 auto}
-.breadcrumb{color:#888;font-size:0.85rem;padding:12px 16px;background:#1a1a24;border-radius:10px;margin-bottom:20px;border:1px solid #2a2a3a}
-.breadcrumb a{color:#9B7EBD;text-decoration:none;transition:all .2s}
-.breadcrumb a:hover{color:#e056fd}
-.breadcrumb span.current{color:#fff}
-.back{color:#888;text-decoration:none;font-size:0.85rem;padding:10px 16px;background:#1a1a24;border-radius:10px;transition:all .2s;border:1px solid #2a2a3a;display:inline-block;cursor:pointer}
-.back:hover{color:#fff;background:#2a2a3a;border-color:#9B7EBD}
-h1{font-size:2.2rem;background:linear-gradient(135deg,#9B7EBD,#e056fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;text-align:center;margin-bottom:8px}
-.subtitle{color:#666;font-size:1rem;text-align:center}
-.posts{display:flex;flex-direction:column;gap:20px}
-.post-card{background:linear-gradient(145deg,#1e1e2a,#16161f);border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:1px solid #2a2a3a}
-.post-header{padding:20px 24px;border-bottom:1px solid #2a2a3a;background:linear-gradient(90deg,rgba(155,126,189,0.1),transparent)}
-.category-tag{display:inline-block;padding:6px 12px;background:linear-gradient(135deg,#9B7EBD33,#e056fd22);border-radius:20px;color:#e056fd;font-size:0.75rem;border:1px solid #9B7EBD44}
-h2{font-size:1.3rem;margin-top:8px;color:#fff}
-.post-content{padding:24px;line-height:1.8;color:#aaa}
-.post-content h1,.post-content h2,.post-content h3{color:#fff;margin:24px 0 12px}
-.post-content p{margin-bottom:14px}
-.post-content a{color:#e056fd}
-.post-content blockquote{border-left:3px solid #9B7EBD;padding-left:16px;margin:16px 0;color:#888;background:#1a1a24;padding:12px 16px;border-radius:0 8px 8px 0}
-.post-content code{background:#1a1a24;padding:2px 8px;border-radius:4px;font-size:0.9em;color:#e056fd}
-.post-content pre{background:#1a1a24;padding:16px;border-radius:12px;overflow-x:auto;margin:16px 0}
-.post-content img{max-width:100%;border-radius:12px;margin:16px 0}
-.post-content table{width:100%;border-collapse:collapse;margin:16px 0}
-.post-content th,.post-content td{border:1px solid #2a2a3a;padding:12px;text-align:left}
-.post-content th{background:linear-gradient(90deg,#9B7EBD22,#1a1a24);color:#e056fd}
-
-.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:20px}
-.folder-card{display:flex;flex-direction:column;align-items:center;padding:30px 20px;background:#1a1a24;border-radius:14px;text-decoration:none;color:#fff;transition:all .2s}
-.folder-card:hover{background:#2a2a3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(155,126,189,0.25)}
-.folder-icon{font-size:2.5rem;margin-bottom:10px}
-.folder-name{font-size:1.1rem;font-weight:600}
-.folder-count{font-size:0.85rem;color:#888;margin-top:4px}
-.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:20px}
-.file-card{display:block;padding:20px;background:#1e1e2a;border-radius:12px;text-decoration:none;color:#fff;transition:all .2s;border:1px solid #2a2a3a}
-.file-card:hover{background:#2a2a3a;transform:translateY(-2px);border-color:#9B7EBD}
-.file-icon{font-size:1.5rem;margin-right:10px}
-.file-name{font-size:0.95rem;color:#ddd}
-.empty-state{text-align:center;padding:60px 20px;color:#666}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folian - 资讯与记账 · 魔法旅程开始</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      color: #eee;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    
+    /* Header Banner */
+    .header {
+      text-align: center;
+      padding: 40px 20px;
+      margin-bottom: 40px;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #a855f7 0%, #00d9ff 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3);
+    }
+    .header h1 { 
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00d9ff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+    
+    /* 功能卡片区 */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: block;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(168, 85, 247, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .feature-card .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      background: rgba(168, 85, 247, 0.2);
+      color: #a855f7;
+    }
+    .feature-card .tag.new { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+    .feature-card h2 { 
+      font-size: 1.25rem; 
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feature-card p { 
+      font-size: 0.9rem;
+      opacity: 0.7; 
+      line-height: 1.5;
+    }
+    
+    /* 统计数据 */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .stat-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .stat-item .number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #00d9ff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-item .label {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+    
+    /* 快捷按钮 */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+      color: white;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(168, 85, 247, 0.4);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px;
+      opacity: 0.6;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer .made-with {
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+    
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .header h1 { font-size: 2rem; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<div class="breadcrumb"><span class="current">🏠 首页</span></div>
-<h1>📰 新闻播报</h1>
-<p class="subtitle">文件列表</p>
-
-      <h3 style="margin:30px 0 16px;color:#9B7EBD">📂 子文件夹</h3>
-      <div class="folder-grid">
-        
-          <a href="https://viviclaw.github.io/folian/diary/index.html" class="folder-card">
-            <span class="folder-icon">📔</span>
-            <span class="folder-name">日记</span>
-          </a>
-        
-      </div>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">✦</div>
+      <h1>Folian</h1>
+      <p class="subtitle">✨ 资讯与记账 · 魔法旅程开始 ✨</p>
+    </div>
     
-</div>
+    <!-- 功能卡片 -->
+    <div class="features">
+      <a href="./diary/" class="feature-card">
+        <span class="tag">热门</span>
+        <h2>📰 每日资讯</h2>
+        <p>每日新闻播报与深度分析，带你了解世界变迁，记录每一个精彩瞬间</p>
+      </a>
+      <a href="./accounting.html" class="feature-card">
+        <span class="tag">核心</span>
+        <h2>💰 智能记账</h2>
+        <p>收支记录与可视化分析，魔法般的账目管理，让每一笔开支都清晰可见</p>
+      </a>
+      <a href="./diary/" class="feature-card">
+        <span class="tag new">新功能</span>
+        <h2>📊 数据分析</h2>
+        <p>深度洞察消费习惯，智能推荐优化方案，为你的理财之路点亮明灯</p>
+      </a>
+      <a href="#" class="feature-card">
+        <span class="tag">管理</span>
+        <h2>⚙️ 个人中心</h2>
+        <p>自定义设置与偏好管理，打造专属于你的数字空间，个性化体验触手可及</p>
+      </a>
+    </div>
+    
+    <!-- 统计数据 -->
+    <div class="stats">
+      <div class="stat-item">
+        <div class="number">365</div>
+        <div class="label">连续记录天数</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">2,847</div>
+        <div class="label">资讯文章</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">12.5K</div>
+        <div class="label">账目记录</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">98%</div>
+        <div class="label">用户满意度</div>
+      </div>
+    </div>
+    
+    <!-- 快捷操作 -->
+    <div class="actions">
+      <a href="./accounting.html" class="btn btn-primary">🚀 快速记账</a>
+      <a href="./diary/" class="btn btn-secondary">📖 查看日报</a>
+      <a href="#" class="btn btn-secondary">⭐ 收藏夹</a>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2026 Folian · 与芙莉莲一同探索数据的魔法世界</p>
+      <p class="made-with">Made with ✨ & 💙</p>
+    </div>
+  </div>
 </body>
 </html>

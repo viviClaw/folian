@@ -93,7 +93,7 @@ function generateHeader(title, subtitle = '') {
 function generateFooter() {
   return `<footer class="frieren-footer">
     <p>与芙莉莲一同探索数据的魔法世界</p>
-    <p class="made-with">Made with ✨ & 🍙</p>
+    <p class="made-with">Made with ✨ & 🦀 & 🍙</p>
   </footer>`;
 }
 

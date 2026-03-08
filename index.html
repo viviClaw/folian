@@ -3,172 +3,415 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frieren - 魔法旅程开始</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    :root {
-      --primary-gradient: linear-gradient(135deg, #a855f7 0%, #00d9ff 100%);
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* ========== 1. 沉浸式动态背景系统 ========== */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f0f1a;
-      min-height: 100vh;
-      color: #eee;
-      overflow-x: hidden;
-    }
-    
-    /* 三层渐变光晕背景 */
-    .bg-layer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    .bg-layer::before,
-    .bg-layer::after,
-    .bg-glow {
-      content: '';
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-      animation: float 20s ease-in-out infinite;
-    }
-    
-    .bg-layer::before {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
-      top: -200px;
-      left: -100px;
-      animation-delay: 0s;
-    }
-    
-    .bg-layer::after {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, transparent 70%);
-      bottom: -150px;
-      right: -100px;
-      animation-delay: -7s;
-    }
-    
-    .bg-glow {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-delay: -14s;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(30px, -30px) scale(1.05); }
-      50% { transform: translate(-20px, 20px) scale(0.95); }
-      75% { transform: translate(20px, 30px) scale(1.02); }
-    }
-    
-    /* 粒子画布 */
-    #particles-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    /* ========== 滚动进度条 ========== */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: var(--primary-gradient);
-      z-index: 1000;
-      transition: width 0.1s ease-out;
-    }
-    
-    /* ========== 加载动画 ========== */
-    .page-loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0f0f1a;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    
-    .page-loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-    
-    .loader-content {
-      text-align: center;
-    }
-    
-    .loader-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 20px;
-      background: var(--primary-gradient);
-      border-radius: 50%;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-    }
-    
-    .loader-text {
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-    
-    /* ========== 主容器 ========== */
-    .container {
+  <title>Frieren - Frieren</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>/**
+ * Frieren 共享全局样式系统
+ * 所有子项目统一引用此样式，实现一体化视觉效果
+ */
+
+/* ========== CSS 变量 ========== */
+:root {
+  /* 主题色 */
+  --primary: #9B7EBD;
+  --primary-light: #B794F6;
+  --primary-dark: #7c5ce0;
+  --accent: #e056fd;
+  --accent-cyan: #00d9ff;
+  
+  /* 背景 */
+  --bg-dark: #0a0a0f;
+  --bg-card: #1a1a24;
+  --bg-card-hover: #2a2a3a;
+  --bg-gradient: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-dark) 70%);
+  
+  /* 文字 */
+  --text-primary: #fff;
+  --text-secondary: #aaa;
+  --text-muted: #666;
+  
+  /* 边框 */
+  --border-color: #2a2a3a;
+  --border-glow: rgba(155, 126, 189, 0.3);
+  
+  /* 阴影 */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 40px rgba(155, 126, 189, 0.15);
+  
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  
+  /* 字体 */
+  --font-family: 'Outfit', -apple-system, 'Noto Sans SC', sans-serif;
+}
+
+/* ========== 全局重置 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* ========== 布局容器 ========== */
+.frieren-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ========== 导航栏 ========== */
+.frieren-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  /* background: var(--bg-card); */
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  /* border: 1px solid var(--border-color); */
+}
+
+.frieren-nav .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.frieren-nav .brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(155, 126, 189, 0.3);
+}
+
+.frieren-nav .brand-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.frieren-nav .nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.frieren-nav .nav-link {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.frieren-nav .nav-link:hover,
+.frieren-nav .nav-link.active {
+  background: rgba(155, 126, 189, 0.15);
+  color: var(--primary);
+}
+
+/* ========== 面包屑 ========== */
+.frieren-breadcrumb {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.frieren-breadcrumb a {
+  color: var(--primary);
+}
+
+.frieren-breadcrumb a:hover {
+  color: var(--accent);
+}
+
+.frieren-breadcrumb .current {
+  color: var(--text-primary);
+}
+
+/* ========== 页面标题 ========== */
+.frieren-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.frieren-header h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.frieren-header .subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ========== 卡片 ========== */
+.frieren-card {
+  background: linear-gradient(145deg, #1e1e2a, #16161f);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.frieren-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* ========== 按钮 ========== */
+.frieren-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.frieren-btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(155, 126, 189, 0.3);
+}
+
+.frieren-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(155, 126, 189, 0.4);
+}
+
+.frieren-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.frieren-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 标签 ========== */
+.frieren-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  background: rgba(155, 126, 189, 0.2);
+  color: var(--primary);
+  border: 1px solid rgba(155, 126, 189, 0.3);
+}
+
+.frieren-tag-new {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* ========== 统计卡片 ========== */
+.frieren-stat {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.frieren-stat:hover {
+  background: var(--bg-card-hover);
+}
+
+.frieren-stat .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.frieren-stat .label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ========== 列表 ========== */
+.frieren-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.frieren-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.frieren-list-item:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-glow);
+}
+
+/* ========== 表格 ========== */
+.frieren-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.frieren-table th,
+.frieren-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.frieren-table th {
+  background: linear-gradient(90deg, rgba(155, 126, 189, 0.1), transparent);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.frieren-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ========== 底部 ========== */
+.frieren-footer {
+  text-align: center;
+  padding: 30px;
+  margin-top: 40px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.frieren-footer .made-with {
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+/* ========== 工具类 ========== */
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted); }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-2 { gap: 8px; }
+.gap-4 { gap: 16px; }
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+  .frieren-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .frieren-nav .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .frieren-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .frieren-container {
+    padding: 12px;
+  }
+  
+  .grid-2,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== 减少动画 (可访问性) ========== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+    /* ========== 首页样式 ========== */
+    .home-container {
       position: relative;
       z-index: 10;
       max-width: 800px;
       margin: 0 auto;
       padding: 40px 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.8s ease forwards;
-      animation-delay: 0.3s;
     }
     
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* ========== 2. 玻璃态卡片设计 ========== */
     /* Header Banner */
-    .header {
+    .home-header {
       text-align: center;
       padding: 40px 20px;
       margin-bottom: 40px;
@@ -187,7 +430,7 @@
       left: -10px;
       right: -10px;
       bottom: -10px;
-      background: var(--primary-gradient);
+      background: var(--primary-gradient, linear-gradient(135deg, #9B7EBD, #00d9ff));
       border-radius: 50%;
       filter: blur(20px);
       opacity: 0.5;
@@ -195,7 +438,7 @@
     }
     
     @keyframes avatarPulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
+      0%, transform: scale( 100% {1); opacity: 0.5; }
       50% { transform: scale(1.15); opacity: 0.3; }
     }
     
@@ -203,29 +446,29 @@
       position: relative;
       width: 80px;
       height: 80px;
-      background: var(--primary-gradient);
+      background: var(--primary-gradient, linear-gradient(135deg, #9B7EBD, #00d9ff));
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 36px;
-      box-shadow: var(--glass-shadow);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
     
-    .header h1 { 
+    .home-header h1 { 
       font-size: 2.5rem;
       margin-bottom: 10px;
-      background: var(--primary-gradient);
+      background: linear-gradient(135deg, var(--primary, #9B7EBD), var(--accent, #e056fd));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     
-    .header .subtitle {
+    .home-header .subtitle {
       font-size: 1.1rem;
       opacity: 0.8;
     }
     
-    /* 功能卡片区 - 玻璃态 */
+    /* 功能卡片区 */
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -234,8 +477,7 @@
     }
     
     .feature-card {
-      /* 毛玻璃效果 */
-      background: var(--glass-bg);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
@@ -243,19 +485,17 @@
       text-decoration: none;
       color: inherit;
       transition: all 0.3s ease;
-      /* 微妙边框 */
-      border: 1px solid var(--glass-border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       display: block;
       position: relative;
       overflow: hidden;
     }
     
-    /* 悬浮阴影 */
     .feature-card:hover {
       transform: translateY(-4px);
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(168, 85, 247, 0.3);
-      box-shadow: var(--glass-shadow), 0 0 40px rgba(168, 85, 247, 0.1);
+      border-color: rgba(155, 126, 189, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 40px rgba(155, 126, 189, 0.1);
     }
     
     .feature-card .tag {
@@ -264,8 +504,8 @@
       padding: 4px 10px;
       border-radius: 20px;
       margin-bottom: 12px;
-      background: rgba(168, 85, 247, 0.2);
-      color: #a855f7;
+      background: rgba(155, 126, 189, 0.2);
+      color: #9B7EBD;
     }
     
     .feature-card .tag.new { 
@@ -279,12 +519,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: transform 0.3s ease;
-    }
-    
-    /* 图标缩放 */
-    .feature-card:hover h2 {
-      transform: scale(1.02);
     }
     
     .feature-card p { 
@@ -293,8 +527,8 @@
       line-height: 1.5;
     }
     
-    /* 统计数据 - 玻璃态 */
-    .stats {
+    /* 统计数据 */
+    .home-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
@@ -302,13 +536,13 @@
     }
     
     .stat-item {
-      background: var(--glass-bg);
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 16px;
       padding: 20px;
       text-align: center;
-      border: 1px solid var(--glass-border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.3s ease;
     }
     
@@ -320,7 +554,7 @@
     .stat-item .number {
       font-size: 1.8rem;
       font-weight: bold;
-      background: var(--primary-gradient);
+      background: linear-gradient(135deg, var(--primary, #9B7EBD), var(--accent-cyan, #00d9ff));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -331,9 +565,8 @@
       margin-top: 4px;
     }
     
-    /* ========== 3. 丰富的微交互系统 ========== */
-    /* 快捷按钮 */
-    .actions {
+    /* 快捷操作 */
+    .home-actions {
       display: flex;
       justify-content: center;
       gap: 16px;
@@ -341,8 +574,7 @@
       flex-wrap: wrap;
     }
     
-    .btn {
-      position: relative;
+    .home-btn {
       padding: 14px 28px;
       border-radius: 14px;
       font-size: 1rem;
@@ -354,274 +586,216 @@
       align-items: center;
       gap: 8px;
       border: none;
-      overflow: hidden;
     }
     
-    /* 波纹特效 */
-    .btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-    }
-    
-    .btn:active::after {
-      width: 300px;
-      height: 300px;
-    }
-    
-    .btn-primary {
-      background: var(--primary-gradient);
+    .home-btn-primary {
+      background: linear-gradient(135deg, var(--primary, #9B7EBD), var(--primary-dark, #7c5ce0));
       color: white;
-      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+      box-shadow: 0 4px 16px rgba(155, 126, 189, 0.3);
     }
     
-    .btn-primary:hover {
+    .home-btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 24px rgba(155, 126, 189, 0.4);
     }
     
-    .btn-secondary {
+    .home-btn-secondary {
       background: rgba(255, 255, 255, 0.1);
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
     }
     
-    .btn-secondary:hover {
+    .home-btn-secondary:hover {
       background: rgba(255, 255, 255, 0.15);
       transform: translateY(-2px);
     }
     
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 30px;
-      opacity: 0.6;
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .footer .made-with {
-      margin-top: 8px;
-      font-size: 0.8rem;
-    }
-    
-    /* ========== 4. 响应式与可访问性 ========== */
+    /* 响应式 */
     @media (max-width: 768px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .header h1 { font-size: 2rem; }
+      .home-stats { grid-template-columns: repeat(2, 1fr); }
+      .home-header h1 { font-size: 2rem; }
       .features { grid-template-columns: 1fr; }
     }
     
     @media (max-width: 480px) {
-      .container { padding: 30px 16px; }
-      .actions { flex-direction: column; }
-      .btn { width: 100%; justify-content: center; }
-      .header { padding: 30px 16px; }
+      .home-container { padding: 30px 16px; }
+      .home-actions { flex-direction: column; }
+      .home-btn { width: 100%; justify-content: center; }
+      .home-header { padding: 30px 16px; }
       .avatar-container { width: 60px; height: 60px; }
       .avatar { width: 60px; height: 60px; font-size: 28px; }
     }
-    
-    /* 减少动画 (可访问性) */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+  
+    #frieren-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    #frieren-scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #9B7EBD, #00d9ff); z-index: 9999; transition: width 0.1s ease; }
+    .frieren-container { position: relative; z-index: 1; }
   </style>
 </head>
-<body>
-  <!-- 加载动画 -->
-  <div class="page-loader" id="pageLoader">
-    <div class="loader-content">
-      <div class="loader-icon"></div>
-      <div class="loader-text">✨ 魔法加载中...</div>
+<body><div class="frieren-container">
+    <div class="home-container">
+      <!-- Header -->
+      <div class="home-header">
+        <div class="avatar-container">
+          <div class="avatar-glow"></div>
+          <div class="avatar">✦</div>
+        </div>
+        <h1>Frieren</h1>
+        <p class="subtitle">✨ 资讯与记账 · 魔法旅程开始 ✨</p>
+      </div>
+      
+      <!-- 功能卡片 -->
+      <div class="features">
+        
+    <a href="./cate/" class="feature-card">
+      <span class="tag">热门</span>
+      <h2>📰 每日资讯</h2>
+      <p>每日新闻播报与深度分析，带你了解世界变迁，记录每一个精彩瞬间</p>
+    </a>
+  
+    <a href="./accounting.html" class="feature-card">
+      <span class="tag">核心</span>
+      <h2>💰 智能记账</h2>
+      <p>收支记录与可视化分析，魔法般的账目管理，让每一笔开支都清晰可见</p>
+    </a>
+  
+    <a href="./cate/" class="feature-card">
+      <span class="tag new">新功能</span>
+      <h2>📊 数据分析</h2>
+      <p>深度洞察消费习惯，智能推荐优化方案，为你的理财之路点亮明灯</p>
+    </a>
+  
+    <a href="#" class="feature-card">
+      <span class="tag">管理</span>
+      <h2>⚙️ 个人中心</h2>
+      <p>自定义设置与偏好管理，打造专属于你的数字空间，个性化体验触手可及</p>
+    </a>
+  
+      </div>
+      
+      <!-- 统计数据 -->
+      <div class="home-stats">
+        
+    <div class="stat-item">
+      <div class="number">365</div>
+      <div class="label">连续记录天数</div>
     </div>
-  </div>
   
-  <!-- 滚动进度条 -->
-  <div class="scroll-progress" id="scrollProgress"></div>
-  
-  <!-- 动态背景 -->
-  <div class="bg-layer">
-    <div class="bg-glow"></div>
-  </div>
-  
-  <!-- 粒子画布 -->
-  <canvas id="particles-canvas"></canvas>
-  
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="avatar-container">
-        <div class="avatar-glow"></div>
-        <div class="avatar">✦</div>
-      </div>
-      <h1>Frieren</h1>
-      <p class="subtitle">✨ 资讯与记账 · 魔法旅程开始 ✨</p>
+    <div class="stat-item">
+      <div class="number">2,847</div>
+      <div class="label">资讯文章</div>
     </div>
-    
-    <!-- 功能卡片 -->
-    <div class="features">
-      <a href="./cate/" class="feature-card">
-        <span class="tag">热门</span>
-        <h2>📰 每日资讯</h2>
-        <p>每日新闻播报与深度分析，带你了解世界变迁，记录每一个精彩瞬间</p>
-      </a>
-      <a href="./accounting.html" class="feature-card">
-        <span class="tag">核心</span>
-        <h2>💰 智能记账</h2>
-        <p>收支记录与可视化分析，魔法般的账目管理，让每一笔开支都清晰可见</p>
-      </a>
-      <a href="./cate/" class="feature-card">
-        <span class="tag new">新功能</span>
-        <h2>📊 数据分析</h2>
-        <p>深度洞察消费习惯，智能推荐优化方案，为你的理财之路点亮明灯</p>
-      </a>
-      <a href="#" class="feature-card">
-        <span class="tag">管理</span>
-        <h2>⚙️ 个人中心</h2>
-        <p>自定义设置与偏好管理，打造专属于你的数字空间，个性化体验触手可及</p>
-      </a>
+  
+    <div class="stat-item">
+      <div class="number">12.5K</div>
+      <div class="label">账目记录</div>
     </div>
-    
-    <!-- 统计数据 -->
-    <div class="stats">
-      <div class="stat-item">
-        <div class="number">365</div>
-        <div class="label">连续记录天数</div>
+  
+    <div class="stat-item">
+      <div class="number">98%</div>
+      <div class="label">用户满意度</div>
+    </div>
+  
       </div>
-      <div class="stat-item">
-        <div class="number">2,847</div>
-        <div class="label">资讯文章</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">12.5K</div>
-        <div class="label">账目记录</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">98%</div>
-        <div class="label">用户满意度</div>
+      
+      <!-- 快捷操作 -->
+      <div class="home-actions">
+        <a href="./accounting.html" class="home-btn home-btn-primary">🚀 快速记账</a>
+        <a href="./cate/" class="home-btn home-btn-secondary">📖 查看日报</a>
       </div>
     </div>
-    
-    <!-- 快捷操作 -->
-    <div class="actions">
-      <a href="./accounting.html" class="btn btn-primary">🚀 快速记账</a>
-      <a href="./cate/" class="btn btn-secondary">📖 查看日报</a>
-      <a href="#" class="btn btn-secondary">⭐ 收藏夹</a>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-      <p>与芙莉莲一同探索数据的魔法世界</p>
-      <p class="made-with">Made with ✨ & 🍙</p>
-    </div>
-  </div>
-  
-  <script>
-    // ========== 页面加载完成后隐藏加载动画 ==========
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('pageLoader').classList.add('hidden');
-      }, 500);
-    });
-    
-    // ========== 滚动进度条 ==========
+  <footer class="frieren-footer">
+    <p>与芙莉莲一同探索数据的魔法世界</p>
+    <p class="made-with">Made with ✨ & 🦀 & 🍙</p>
+  </footer></div><div id="frieren-scroll-progress" style="position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#9B7EBD,#00d9ff);z-index:9999;transition:width 0.1s ease;"></div><canvas id="frieren-particles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas><script>
+(function() {
+  // ========== 滚动进度条 ==========
+  const progressBar = document.getElementById('frieren-scroll-progress');
+  if (progressBar) {
     window.addEventListener('scroll', function() {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
-      document.getElementById('scrollProgress').style.width = scrolled + '%';
+      progressBar.style.width = scrolled + '%';
+    });
+  }
+  
+  // ========== 粒子效果 ==========
+  var canvas = document.getElementById('frieren-particles');
+  if (!canvas) return;
+  
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var animationId;
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  
+  function createParticles() {
+    particles = [];
+    for (var i = 0; i < 50; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.4 + 0.2
+      });
+    }
+  }
+  
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach(function(p, i) {
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(155, 126, 189, ' + p.opacity + ')';
+      ctx.fill();
+      
+      // 连线
+      particles.slice(i + 1).forEach(function(p2) {
+        var dx = p.x - p2.x;
+        var dy = p.y - p2.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(155, 126, 189, ' + (1 - distance / 120) * 0.15 + ')';
+          ctx.lineWidth = 1;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      });
     });
     
-    // ========== 粒子画布特效 ==========
-    (function() {
-      const canvas = document.getElementById('particles-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      const particleCount = 50;
-      const connectionDistance = 120;
-      let animationId;
-      
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      
-      function createParticles() {
-        particles = [];
-        for (let i = 0; i < particleCount; i++) {
-          particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            radius: Math.random() * 2 + 1,
-            opacity: Math.random() * 0.5 + 0.3
-          });
-        }
-      }
-      
-      function drawParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // 更新和绘制粒子
-        particles.forEach(function(p, i) {
-          p.x += p.vx;
-          p.y += p.vy;
-          
-          // 边界检测
-          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-          
-          // 绘制粒子
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(168, 85, 247, ' + p.opacity + ')';
-          ctx.fill();
-          
-          // 粒子连线
-          particles.slice(i + 1).forEach(function(p2) {
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < connectionDistance) {
-              ctx.beginPath();
-              ctx.strokeStyle = 'rgba(168, 85, 247, ' + (1 - distance / connectionDistance) * 0.2 + ')';
-              ctx.lineWidth = 1;
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          });
-        });
-        
-        animationId = requestAnimationFrame(drawParticles);
-      }
-      
-      // 初始化
-      resize();
-      createParticles();
-      drawParticles();
-      
-      // 响应式
-      window.addEventListener('resize', function() {
-        resize();
-        createParticles();
-      });
-    })();
-  </script>
-</body>
+    animationId = requestAnimationFrame(drawParticles);
+  }
+  
+  // 初始化
+  resize();
+  createParticles();
+  drawParticles();
+  
+  window.addEventListener('resize', function() {
+    resize();
+    createParticles();
+  });
+  
+  // 减少动画
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    if (animationId) cancelAnimationFrame(animationId);
+  }
+})();
+</script></body>
 </html>

@@ -17,6 +17,9 @@ try {
   console.warn('⚠️ 无法读取 shared/styles.css');
 }
 
+// 引入动态效果
+const { generateDynamicEffects, particleConfig } = require('./effects');
+
 // 导航链接配置
 const navLinks = [
   { name: '首页', url: '/', icon: '🏠' },
@@ -31,6 +34,13 @@ function generateHead(title, extraCss = '') {
   // 合并共享样式和额外样式
   const allStyles = sharedStyles + (extraCss ? '\n' + extraCss : '');
   
+  // 粒子画布样式
+  const particleStyles = `
+    #frieren-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    #frieren-scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #9B7EBD, #00d9ff); z-index: 9999; transition: width 0.1s ease; }
+    .frieren-container { position: relative; z-index: 1; }
+  `;
+  
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -40,7 +50,7 @@ function generateHead(title, extraCss = '') {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-  <style>${allStyles}</style>
+  <style>${allStyles}${particleStyles}</style>
 </head>
 <body>`;
 }
@@ -68,23 +78,6 @@ function generateNav(currentPage = '') {
 }
 
 /**
- * 生成面包屑导航
- */
-function generateBreadcrumb(crumbs) {
-  const items = crumbs.map((crumb, index) => {
-    const isLast = index === crumbs.length - 1;
-    if (isLast) {
-      return `<span class="current">${crumb.name}</span>`;
-    }
-    return `<a href="${crumb.url}">${crumb.name}</a> > `;
-  }).join('');
-  
-  return `<div class="frieren-breadcrumb">
-    <a href="${BASE_URL}/">🏠 首页</a> > ${items}
-  </div>`;
-}
-
-/**
  * 生成页面头部
  */
 function generateHeader(title, subtitle = '') {
@@ -108,7 +101,7 @@ function generateFooter() {
  * 生成统一的 HTML 尾部
  */
 function generateTail() {
-  return `</body>
+  return generateDynamicEffects(particleConfig) + `</body>
 </html>`;
 }
 

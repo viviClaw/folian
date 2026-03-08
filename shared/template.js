@@ -3,7 +3,19 @@
  * 提供统一的 HTML 布局模板，供各子项目使用
  */
 
+const fs = require('fs');
+const path = require('path');
+
 const BASE_URL = 'https://viviclaw.github.io/folian';
+
+// 读取共享样式文件
+const SHARED_STYLES_PATH = path.join(__dirname, 'styles.css');
+let sharedStyles = '';
+try {
+  sharedStyles = fs.readFileSync(SHARED_STYLES_PATH, 'utf-8');
+} catch (e) {
+  console.warn('⚠️ 无法读取 shared/styles.css');
+}
 
 // 导航链接配置
 const navLinks = [
@@ -16,6 +28,9 @@ const navLinks = [
  * 生成统一的 HTML 头部
  */
 function generateHead(title, extraCss = '') {
+  // 合并共享样式和额外样式
+  const allStyles = sharedStyles + (extraCss ? '\n' + extraCss : '');
+  
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -25,7 +40,7 @@ function generateHead(title, extraCss = '') {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-  <style>${extraCss}</style>
+  <style>${allStyles}</style>
 </head>
 <body>`;
 }

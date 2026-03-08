@@ -69,9 +69,9 @@ a:hover {
 
 /* ========== 布局容器 ========== */
 .frieren-container {
-  max-width: 800px;
+  /* max-width: 800px; */
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px;
 }
 
 /* ========== 导航栏 ========== */
@@ -371,7 +371,7 @@ a:hover {
 
 @media (max-width: 480px) {
   .frieren-container {
-    padding: 12px;
+    padding: 8px;
   }
   
   .grid-2,

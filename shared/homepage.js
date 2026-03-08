@@ -1,14 +1,10 @@
 /**
  * Frieren 博客首页
  * 
- * 设计风格：魔法主题 - 简约优雅版（含粒子动画）
+ * 设计主题：芙莉莲 - 魔法使的旅程
+ * 灵感来源：《葬送的芙莉莲》
+ * 核心理念：时间、记忆、魔法、旅程
  * 主要用途：美食/账目/运动/深度报告/日记等生活记录
- * 特点：
- * - 克制的动画效果
- * - 柔和的粒子背景
- * - 简洁优雅的设计
- * - 实用的功能导向
- * - 温暖的视觉氛围
  */
 
 const { generatePage, generateNav, generateFooter, BASE_URL } = require('./template');
@@ -20,17 +16,18 @@ function generateHomepage(options = {}) {
   const {
     siteName = 'Frieren',
     features = [],
-    stats = {}
+    stats = {},
+    recentRecords = []
   } = options;
   
-  // 默认功能卡片 - 生活记录主题
+  // 默认功能卡片 - 魔法使的生活记录
   const defaultFeatures = [
     {
       tag: '美食',
       tagNew: false,
       icon: '🍽️',
-      title: '美食记录',
-      desc: '记录每一次味蕾的旅行，分享美食的温暖时刻',
+      title: '美食图鉴',
+      desc: '记录每一个品尝过的村庄美食，像收集魔法卷轴一样珍藏味蕾的记忆',
       href: './food/',
       color: '#f59e0b'
     },
@@ -38,30 +35,66 @@ function generateHomepage(options = {}) {
       tag: '账目',
       tagNew: true,
       icon: '💰',
-      title: '智能记账',
-      desc: '收支记录与可视化分析，让每一笔开支清晰可见',
+      title: '魔力账簿',
+      desc: '管理旅途中的金币与物资，让每一笔收支都清晰可见',
       href: './accounting.html',
       color: '#10b981'
     },
     {
-      tag: '运动',
+      tag: '修行',
       tagNew: false,
       icon: '🏃',
-      title: '运动打卡',
-      desc: '记录每一次挥汗如雨，见证健康的点滴进步',
+      title: '魔法修行',
+      desc: '记录每一次魔力控制的训练，见证从弱小到强大的成长轨迹',
       href: './sports/',
       color: '#8b5cf6'
     },
     {
-      tag: '阅读',
+      tag: '研究',
       tagNew: false,
       icon: '📚',
-      title: '读书笔记',
-      desc: '书香满溢的时光，记录阅读的思考与感悟',
+      title: '魔导书房',
+      desc: '在浩瀚的书海中探索，记录每一次对魔法与世界的深刻理解',
       href: './cate/',
       color: '#06b6d4'
     }
   ];
+  
+  // 芙莉莲经典语录集
+  const quotes = [
+    // 关于时间与记忆
+    { text: '即使过了一千年，我依然会记得今天', source: 'Frieren', context: '对重要时刻的珍视' },
+    { text: '人类的一生很短暂，但记忆会永远留存', source: 'Frieren', context: '关于记忆的力量' },
+    { text: '漫长的生命里，总有那么几个瞬间值得永远铭记', source: 'Frieren', context: '珍惜当下' },
+    { text: '即使是千年时光，也无法抹去那些珍贵的回忆', source: 'Frieren', context: '记忆的永恒' },
+    
+    // 关于魔法与生活
+    { text: '魔法是为了让人们的生活更加便利而存在的', source: 'Frieren', context: '魔法的本质' },
+    { text: '寻找魔法的乐趣，就在于过程中的点点滴滴', source: 'Frieren', context: '探索的意义' },
+    { text: '即使是微不足道的魔法，也能为某个人带来幸福', source: 'Frieren', context: '魔法的价值' },
+    { text: '魔法师的价值，不在于强大的魔力，而在于对魔法的热爱', source: 'Frieren', context: '魔法师的信念' },
+    
+    // 关于旅程与伙伴
+    { text: '每一段旅程都是珍贵的回忆', source: 'Frieren', context: '旅程的意义' },
+    { text: '旅途中遇到的每一个人，都是命运的馈赠', source: 'Frieren', context: '珍惜相遇' },
+    { text: '即使伙伴们已经离去，我们的羁绊会永远存在', source: 'Frieren', context: '永恒的羁绊' },
+    { text: '旅行不只是为了抵达目的地，更是为了沿途的风景', source: 'Frieren', context: '旅程的价值' },
+    
+    // 关于生命与存在
+    { text: '重要的不是活了多久，而是如何度过', source: 'Himmel', context: '生命的意义' },
+    { text: '即使是短暂的一生，也能创造出永恒的价值', source: 'Himmel', context: '短暂与永恒' },
+    { text: '活着的意义，就是创造值得铭记的回忆', source: 'Frieren', context: '存在的意义' },
+    { text: '在漫长的时光中，唯一不变的就是变化本身', source: 'Frieren', context: '时间与变化' },
+    
+    // 关于成长与未来
+    { text: '现在的努力，是为了成为未来的回忆', source: 'Frieren', context: '当下的意义' },
+    { text: '每一天都是新的开始，每一刻都值得珍惜', source: 'Frieren', context: '珍惜当下' },
+    { text: '即使前路漫漫，也要坚定地走下去', source: 'Frieren', context: '坚持与勇气' },
+    { text: '成长的过程，就是不断超越过去的自己', source: 'Frieren', context: '成长的意义' }
+  ];
+  
+  // 随机选择一条语录
+  const todayQuote = quotes[Math.floor(Math.random() * quotes.length)];
   
   const featureList = features.length > 0 ? features : defaultFeatures;
   
@@ -74,9 +107,9 @@ function generateHomepage(options = {}) {
   };
   const statsData = { ...defaultStats, ...stats };
   
-  // 首页特定样式 - 简约优雅版（含粒子动画）
+  // 首页特定样式 - 芙莉莲主题
   const homepageStyles = `
-/* ========== 简约优雅首页样式（含粒子动画） ========== */
+/* ========== 芙莉莲主题首页样式 ========== */
 
 /* 粒子背景容器 */
 #particles-container {
@@ -90,13 +123,22 @@ function generateHomepage(options = {}) {
   overflow: hidden;
 }
 
-/* 温暖渐变背景 */
+/* 魔法星空背景 */
 body {
   background: linear-gradient(135deg, 
-    #1a1a2e 0%, 
+    #0f0c29 0%, 
+    #1a1a3e 25%,
     #16213e 50%, 
-    #1e1e2e 100%
+    #1e1e2e 75%,
+    #24243e 100%
   ) !important;
+  background-size: 400% 400% !important;
+  animation: magicBgShift 20s ease infinite !important;
+}
+
+@keyframes magicBgShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .home-container {
@@ -107,38 +149,85 @@ body {
   padding: 50px 30px;
 }
 
-/* ========== 简约欢迎区 ========== */
-.welcome-section {
+/* ========== 英雄区域 - 魔法使之旅 ========== */
+.hero-section {
   text-align: center;
-  padding: 60px 30px 50px;
-  margin-bottom: 50px;
+  padding: 70px 30px 60px;
+  margin-bottom: 60px;
   position: relative;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.08), 
+    rgba(236, 72, 153, 0.05)
+  );
+  border-radius: 32px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  overflow: hidden;
 }
 
-/* 温和的光晕装饰 */
-.welcome-section::before {
+/* 魔法阵装饰 */
+.hero-section::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, 
-    rgba(139, 92, 246, 0.08) 0%, 
-    rgba(236, 72, 153, 0.05) 30%, 
-    transparent 70%
-  );
-  filter: blur(40px);
+  width: 600px;
+  height: 600px;
+  background: 
+    radial-gradient(circle at 50% 50%, transparent 20%, rgba(139, 92, 246, 0.03) 21%, transparent 22%),
+    radial-gradient(circle at 50% 50%, transparent 35%, rgba(236, 72, 153, 0.02) 36%, transparent 37%);
+  border-radius: 50%;
+  animation: magicCircle 30s linear infinite;
   pointer-events: none;
 }
 
+@keyframes magicCircle {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 星星装饰 */
+.hero-stars {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  gap: 10px;
+  font-size: 1.2rem;
+  color: #a78bfa;
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.hero-stars span:nth-child(2) { animation-delay: 0.5s; }
+.hero-stars span:nth-child(3) { animation-delay: 1s; }
+
 /* 头像 */
-.welcome-avatar {
+.hero-avatar {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 30px;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 35px;
+}
+
+.avatar-ring {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 50%;
+  animation: ringRotate 10s linear infinite;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .avatar-glow {
@@ -148,93 +237,171 @@ body {
   right: -10px;
   bottom: -10px;
   background: radial-gradient(circle, 
-    rgba(139, 92, 246, 0.3), 
-    rgba(236, 72, 153, 0.2)
+    rgba(139, 92, 246, 0.4), 
+    rgba(236, 72, 153, 0.3)
   );
   border-radius: 50%;
-  filter: blur(15px);
-  animation: gentleGlow 4s ease-in-out infinite;
+  filter: blur(20px);
+  animation: avatarGlow 4s ease-in-out infinite;
 }
 
-@keyframes gentleGlow {
+@keyframes avatarGlow {
   0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+  50% { opacity: 0.9; transform: scale(1.1); }
 }
 
 .avatar-core {
   position: relative;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 70px;
   box-shadow: 
-    0 10px 30px rgba(139, 92, 246, 0.3),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    0 15px 40px rgba(139, 92, 246, 0.4),
+    0 0 80px rgba(236, 72, 153, 0.2),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  animation: avatarFloat 3s ease-in-out infinite;
+}
+
+@keyframes avatarFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* 标题 */
-.welcome-title {
-  font-size: 3rem;
+.hero-title {
+  font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #fff, #c4b5fd);
+  background: linear-gradient(135deg, #fff, #c4b5fd, #f0abfc, #fff);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
+  animation: titleShine 5s linear infinite;
+  letter-spacing: 3px;
 }
 
-.welcome-subtitle {
-  font-size: 1.2rem;
+@keyframes titleShine {
+  to { background-position: 300% center; }
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
   color: #a78bfa;
-  margin-bottom: 16px;
-  letter-spacing: 2px;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
-.welcome-subtitle::before,
-.welcome-subtitle::after {
+.hero-subtitle::before,
+.hero-subtitle::after {
   content: '✦';
-  margin: 0 12px;
+  font-size: 0.9rem;
   opacity: 0.6;
 }
 
-.welcome-desc {
-  font-size: 1rem;
+.hero-desc {
+  font-size: 1.05rem;
   color: #94a3b8;
   line-height: 1.8;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 650px;
+  margin: 0 auto 25px;
 }
 
-/* ========== 统计面板 - 简约风格 ========== */
+/* 语录卡片 */
+.quote-card {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 28px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  position: relative;
+}
+
+.quote-card::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 3rem;
+  color: rgba(139, 92, 246, 0.2);
+  font-family: Georgia, serif;
+}
+
+.quote-text {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+  font-style: italic;
+  padding-left: 30px;
+}
+
+.quote-source {
+  font-size: 0.85rem;
+  color: #a78bfa;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.quote-context {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-style: normal;
+  opacity: 0.8;
+}
+
+/* ========== 统计面板 - 魔法成就 ========== */
 .stats-section {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .section-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding: 16px 20px;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 18px 24px;
   background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.08), 
-    rgba(236, 72, 153, 0.05)
+    rgba(139, 92, 246, 0.1), 
+    rgba(236, 72, 153, 0.06)
   );
-  border-radius: 16px;
-  border-left: 3px solid #8b5cf6;
+  border-radius: 20px;
+  border-left: 4px solid #8b5cf6;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899, transparent);
 }
 
 .section-icon {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 .section-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #fff;
   margin: 0;
@@ -242,7 +409,7 @@ body {
 }
 
 .section-badge {
-  padding: 4px 12px;
+  padding: 5px 14px;
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   color: #fff;
   border-radius: 12px;
@@ -253,7 +420,7 @@ body {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .stat-card {
@@ -261,51 +428,75 @@ body {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 28px 24px;
+  border-radius: 24px;
+  padding: 32px 26px;
   border: 1px solid rgba(139, 92, 246, 0.15);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* 顶部渐变光条 */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--stat-color, #8b5cf6), 
+    transparent
+  );
+  opacity: 0.6;
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+  box-shadow: 
+    0 16px 40px rgba(139, 92, 246, 0.2),
+    0 0 60px rgba(236, 72, 153, 0.1);
 }
 
 .stat-icon {
-  font-size: 2.2rem;
-  margin-bottom: 14px;
+  font-size: 2.8rem;
+  margin-bottom: 16px;
   display: block;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 .stat-number {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 700;
   background: linear-gradient(135deg, #fff, #c4b5fd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #a78bfa;
   letter-spacing: 1px;
 }
 
-/* ========== 功能卡片 - 温馨风格 ========== */
+/* ========== 功能卡片 - 魔法传送门 ========== */
 .features-section {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
 .feature-card {
@@ -313,53 +504,56 @@ body {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 28px;
+  border-radius: 24px;
+  padding: 32px;
   text-decoration: none;
   color: inherit;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
   overflow: hidden;
 }
 
-/* 左侧彩色边条 */
-.feature-card::before {
+/* 魔法光晕 */
+.feature-card::after {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--card-color, #8b5cf6);
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--card-color, rgba(139, 92, 246, 0.1)) 0%, transparent 50%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
-.feature-card:hover::before {
+.feature-card:hover::after {
   opacity: 1;
 }
 
 .feature-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(139, 92, 246, 0.2);
+  transform: translateY(-8px);
+  border-color: rgba(139, 92, 246, 0.25);
   background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    0 0 80px var(--card-glow, rgba(139, 92, 246, 0.15));
 }
 
 .feature-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .feature-tag {
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 7px 14px;
+  border-radius: 14px;
   background: rgba(139, 92, 246, 0.15);
   color: #a78bfa;
   letter-spacing: 1px;
@@ -368,58 +562,134 @@ body {
 .feature-tag.new {
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   color: #fff;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
 .feature-icon {
-  font-size: 2.5rem;
-  transition: transform 0.3s ease;
+  font-size: 3rem;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
 }
 
 .feature-card:hover .feature-icon {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(5deg);
 }
 
 .feature-title {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
   color: #fff;
   font-weight: 600;
 }
 
 .feature-desc {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #94a3b8;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.7;
+  margin-bottom: 24px;
 }
 
 .feature-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16px;
+  padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .feature-action {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #a78bfa;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feature-action::before {
+  content: '✦';
+  font-size: 0.8rem;
 }
 
 .feature-arrow {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #a78bfa;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .feature-card:hover .feature-arrow {
-  transform: translateX(6px);
+  transform: translateX(8px);
+  color: #ec4899;
+}
+
+/* ========== 今日推荐 - 精选魔法 ========== */
+.today-section {
+  margin-bottom: 60px;
+}
+
+.today-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.today-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.today-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.today-time {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.today-title {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.today-excerpt {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.today-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  color: #a78bfa;
 }
 
 /* ========== 快捷操作 ========== */
 .actions-section {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .actions-grid {
@@ -432,23 +702,42 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 20px 24px;
-  border-radius: 16px;
+  padding: 22px 26px;
+  border-radius: 18px;
   text-decoration: none;
   transition: all 0.3s ease;
   font-weight: 500;
+  position: relative;
+  overflow: hidden;
 }
 
 .action-btn-primary {
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   color: #fff;
   border: none;
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+
+.action-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.action-btn-primary:hover::before {
+  left: 100%;
 }
 
 .action-btn-primary:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 
+    0 12px 32px rgba(139, 92, 246, 0.5),
+    0 0 60px rgba(236, 72, 153, 0.3);
 }
 
 .action-btn-secondary {
@@ -460,27 +749,80 @@ body {
 }
 
 .action-btn-secondary:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
 }
 
 .action-icon {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 .action-text {
-  font-size: 0.95rem;
+  font-size: 1rem;
   flex: 1;
+}
+
+/* ========== 时光轴 - 魔法旅程 ========== */
+.timeline-section {
+  margin-bottom: 50px;
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.timeline-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  color: #a78bfa;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.timeline-content {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.timeline-icon {
+  font-size: 1.5rem;
+  margin-top: 10px;
 }
 
 /* ========== 响应式设计 ========== */
 @media (max-width: 1024px) {
   .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .today-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   
   .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .timeline-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -490,54 +832,63 @@ body {
     padding: 40px 20px;
   }
   
-  .welcome-section {
-    padding: 40px 20px 40px;
+  .hero-section {
+    padding: 50px 20px 45px;
+    margin-bottom: 50px;
   }
   
-  .welcome-avatar {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 24px;
+  .hero-avatar {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 28px;
   }
   
   .avatar-core {
-    width: 100px;
-    height: 100px;
-    font-size: 50px;
+    width: 110px;
+    height: 110px;
+    font-size: 55px;
   }
   
-  .welcome-title {
-    font-size: 2.2rem;
+  .hero-title {
+    font-size: 2.5rem;
   }
   
-  .welcome-subtitle {
-    font-size: 1rem;
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .quote-card {
+    padding: 18px 22px;
+  }
+  
+  .quote-text {
+    font-size: 0.9rem;
+    padding-left: 25px;
   }
   
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
   }
   
   .stat-card {
-    padding: 20px;
+    padding: 24px 20px;
   }
   
   .stat-number {
-    font-size: 2rem;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    font-size: 2.3rem;
   }
   
   .feature-card {
-    padding: 24px;
+    padding: 26px;
   }
   
   .feature-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+  }
+  
+  .today-grid {
+    grid-template-columns: 1fr;
   }
   
   .actions-grid {
@@ -545,12 +896,16 @@ body {
     gap: 12px;
   }
   
+  .timeline-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .section-header {
-    padding: 14px 16px;
+    padding: 14px 18px;
   }
   
   .section-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -559,8 +914,17 @@ body {
     grid-template-columns: 1fr;
   }
   
-  .welcome-title {
-    font-size: 1.8rem;
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-stars {
+    display: none;
+  }
+  
+  .hero-section::before {
+    width: 400px;
+    height: 400px;
   }
 }
 `;
@@ -569,7 +933,7 @@ body {
   const featuresHtml = featureList.map((f, index) => `
     <a href="${f.href}" 
        class="feature-card" 
-       style="--card-color: ${f.color}; animation-delay: ${index * 0.08}s">
+       style="--card-color: ${f.color}; --card-glow: ${f.color}22; animation-delay: ${index * 0.1}s">
       <div class="feature-header">
         <span class="feature-tag${f.tagNew ? ' new' : ''}">${f.tag}</span>
         <span class="feature-icon">${f.icon}</span>
@@ -577,7 +941,7 @@ body {
       <h2 class="feature-title">${f.title}</h2>
       <p class="feature-desc">${f.desc}</p>
       <div class="feature-footer">
-        <span class="feature-action">开始记录</span>
+        <span class="feature-action">开始探索</span>
         <span class="feature-arrow">→</span>
       </div>
     </a>
@@ -585,49 +949,120 @@ body {
 
   // 统计卡片 HTML
   const statsHtml = `
-    <div class="stat-card">
+    <div class="stat-card" style="--stat-color: #8b5cf6">
       <span class="stat-icon">✨</span>
       <div class="stat-number" data-count="${statsData.totalPosts}">0</div>
-      <div class="stat-label">记录条数</div>
+      <div class="stat-label">魔法记录</div>
     </div>
-    <div class="stat-card">
-      <span class="stat-icon">📂</span>
+    <div class="stat-card" style="--stat-color: #ec4899">
+      <span class="stat-icon">🌌</span>
       <div class="stat-number" data-count="${statsData.totalCategories}">0</div>
-      <div class="stat-label">记录类别</div>
+      <div class="stat-label">探索领域</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" style="--stat-color: #06b6d4">
       <span class="stat-icon">📅</span>
       <div class="stat-number" data-count="${statsData.totalDays}">0</div>
-      <div class="stat-label">连续记录</div>
+      <div class="stat-label">魔法旅程</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" style="--stat-color: #f59e0b">
       <span class="stat-icon">⭐</span>
       <div class="stat-number" data-count="${statsData.satisfaction}">0</div>
       <div class="stat-label">满意度</div>
     </div>
   `;
 
+  // 今日推荐 HTML
+  const todayHtml = `
+    <a href="./food/" class="today-card">
+      <div class="today-time">🕐 今日推荐</div>
+      <h3 class="today-title">🍽️ 记录今日美食</h3>
+      <p class="today-excerpt">分享你的美食时刻，记录味蕾的每一次旅行</p>
+      <div class="today-meta">
+        <span>美食记录</span>
+        <span>→</span>
+      </div>
+    </a>
+    <a href="./accounting.html" class="today-card">
+      <div class="today-time">📊 今日统计</div>
+      <h3 class="today-title">💰 记录今日账目</h3>
+      <p class="today-excerpt">记录每一笔开支，让财务管理变得简单高效</p>
+      <div class="today-meta">
+        <span>智能记账</span>
+        <span>→</span>
+      </div>
+    </a>
+    <a href="./cate/" class="today-card">
+      <div class="today-time">📚 最近更新</div>
+      <h3 class="today-title">📖 查看最新内容</h3>
+      <p class="today-excerpt">浏览最新的文章和笔记，发现更多精彩</p>
+      <div class="today-meta">
+        <span>内容浏览</span>
+        <span>→</span>
+      </div>
+    </a>
+  `;
+
+  // 时光轴 HTML
+  const timelineHtml = `
+    <div class="timeline-card">
+      <div class="timeline-date">2024-01</div>
+      <div class="timeline-content">开始美食记录</div>
+      <div class="timeline-icon">🍽️</div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-date">2024-02</div>
+      <div class="timeline-content">启动记账功能</div>
+      <div class="timeline-icon">💰</div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-date">2024-03</div>
+      <div class="timeline-content">记录运动打卡</div>
+      <div class="timeline-icon">🏃</div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-date">2024-04</div>
+      <div class="timeline-content">新增读书笔记</div>
+      <div class="timeline-icon">📚</div>
+    </div>
+  `;
+
   // 内容 HTML
   const content = `
 <div class="home-container">
-  <!-- 欢迎区域 -->
-  <section class="welcome-section">
-    <div class="welcome-avatar">
-      <div class="avatar-glow"></div>
-      <div class="avatar-core">📝</div>
+  <!-- 英雄区域 -->
+  <section class="hero-section">
+    <div class="hero-stars">
+      <span>✦</span>
+      <span>✦</span>
+      <span>✦</span>
     </div>
     
-    <h1 class="welcome-title">${siteName}</h1>
-    <p class="welcome-subtitle">记录生活，留住美好</p>
-    <p class="welcome-desc">
-      在这里记录美食、运动、账目和思考<br/>
-      让每一刻都留下温暖的印记
+    <div class="hero-avatar">
+      <div class="avatar-ring"></div>
+      <div class="avatar-glow"></div>
+      <div class="avatar-core">🔮</div>
+    </div>
+    
+    <h1 class="hero-title">${siteName}</h1>
+    <p class="hero-subtitle">魔法使的旅程</p>
+    <p class="hero-desc">
+      在这里记录美食、运动、账目和思考的点点滴滴<br/>
+      让每一刻都化作永恒的记忆，如同魔法般珍藏
     </p>
+    
+    <div class="quote-card">
+      <p class="quote-text">${todayQuote.text}</p>
+      <p class="quote-source">—— ${todayQuote.source} ${todayQuote.context ? `<span class="quote-context">· ${todayQuote.context}</span>` : ''}</p>
+    </div>
   </section>
   
   <!-- 统计面板 -->
   <section class="stats-section">
-    
+    <div class="section-header">
+      <span class="section-icon">📊</span>
+      <h2 class="section-title">魔法成就</h2>
+      <span class="section-badge">实时更新</span>
+    </div>
     <div class="stats-grid">
       ${statsHtml}
     </div>
@@ -635,27 +1070,75 @@ body {
   
   <!-- 功能卡片区 -->
   <section class="features-section">
+    <div class="section-header">
+      <span class="section-icon">🌌</span>
+      <h2 class="section-title">探索魔法领域</h2>
+      <span class="section-badge">${featureList.length} 个传送门</span>
+    </div>
     <div class="features-grid">
       ${featuresHtml}
     </div>
   </section>
   
+  <!-- 今日推荐 -->
+  <section class="today-section">
+    <div class="section-header">
+      <span class="section-icon">✨</span>
+      <h2 class="section-title">今日推荐</h2>
+      <span class="section-badge">精选内容</span>
+    </div>
+    <div class="today-grid">
+      ${todayHtml}
+    </div>
+  </section>
   
+  <!-- 快捷操作 -->
+  <section class="actions-section">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <h2 class="section-title">快速通道</h2>
+      <span class="section-badge">常用功能</span>
+    </div>
+    <div class="actions-grid">
+      <a href="./accounting.html" class="action-btn action-btn-primary">
+        <span class="action-icon">💰</span>
+        <span class="action-text">快速记账</span>
+      </a>
+      <a href="./food/" class="action-btn action-btn-secondary">
+        <span class="action-icon">🍽️</span>
+        <span class="action-text">记录美食</span>
+      </a>
+      <a href="./cate/" class="action-btn action-btn-secondary">
+        <span class="action-icon">📚</span>
+        <span class="action-text">浏览全部</span>
+      </a>
+    </div>
+  </section>
+  
+  <!-- 时光轴 -->
+  <section class="timeline-section">
+    <div class="section-header">
+      <span class="section-icon">⏰</span>
+      <h2 class="section-title">魔法旅程</h2>
+      <span class="section-badge">时光记录</span>
+    </div>
+    <div class="timeline-grid">
+      ${timelineHtml}
+    </div>
+  </section>
 </div>
 
 <!-- 粒子背景 -->
 <div id="particles-container"></div>
 
 <script>
-  // 粒子效果 - 柔和版本
+  // 粒子效果 - 魔法星辰版
   (function() {
     const container = document.getElementById('particles-container');
     if (!container) return;
     
-    // 粒子数量适中
-    const particleCount = 35;
+    const particleCount = 40;
     
-    // 创建样式
     const style = document.createElement('style');
     style.textContent = \`
       @keyframes particleFloat {
@@ -664,43 +1147,42 @@ body {
           opacity: 0;
         }
         10% {
-          opacity: 0.6;
+          opacity: 0.7;
         }
         90% {
-          opacity: 0.6;
+          opacity: 0.7;
         }
         100% {
-          transform: translateY(-10vh) translateX(\${Math.random() * 100 - 50}px) rotate(360deg);
+          transform: translateY(-10vh) translateX(\${Math.random() * 80 - 40}px) rotate(360deg);
           opacity: 0;
         }
       }
       
       @keyframes particleTwinkle {
         0%, 100% {
-          opacity: 0.3;
+          opacity: 0.4;
           transform: scale(1);
         }
         50% {
-          opacity: 0.8;
-          transform: scale(1.3);
+          opacity: 1;
+          transform: scale(1.4);
         }
       }
     \`;
     document.head.appendChild(style);
     
-    // 创建粒子
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
-      const size = Math.random() * 3 + 1.5;
-      const isRound = Math.random() > 0.3;
+      const size = Math.random() * 3 + 2;
+      const isRound = Math.random() > 0.2;
       
-      // 随机颜色（柔和的紫色和粉色系）
       const colors = [
-        'rgba(139, 92, 246, 0.6)',  // 紫色
-        'rgba(236, 72, 153, 0.5)',  // 粉色
-        'rgba(96, 165, 250, 0.4)',  // 蓝色
-        'rgba(167, 139, 250, 0.5)', // 浅紫
-        'rgba(244, 114, 182, 0.4)'  // 浅粉
+        'rgba(139, 92, 246, 0.7)',
+        'rgba(236, 72, 153, 0.6)',
+        'rgba(96, 165, 250, 0.5)',
+        'rgba(167, 139, 250, 0.6)',
+        'rgba(244, 114, 182, 0.5)',
+        'rgba(6, 182, 212, 0.4)'
       ];
       const color = colors[Math.floor(Math.random() * colors.length)];
       
@@ -714,11 +1196,11 @@ body {
         top: \${Math.random() * 100}%;
         opacity: 0;
         animation: 
-          particleFloat \${Math.random() * 15 + 20}s linear infinite,
-          particleTwinkle \${Math.random() * 3 + 2}s ease-in-out infinite;
-        animation-delay: \${Math.random() * 20}s, \${Math.random() * 3}s;
+          particleFloat \${Math.random() * 18 + 22}s linear infinite,
+          particleTwinkle \${Math.random() * 2.5 + 2}s ease-in-out infinite;
+        animation-delay: \${Math.random() * 22}s, \${Math.random() * 2.5}s;
         pointer-events: none;
-        box-shadow: 0 0 \${size * 2}px \${color};
+        box-shadow: 0 0 \${size * 3}px \${color};
       \`;
       
       container.appendChild(particle);
@@ -730,14 +1212,14 @@ body {
     const numbers = document.querySelectorAll('.stat-number[data-count]');
     numbers.forEach(num => {
       const target = parseInt(num.getAttribute('data-count'));
-      const duration = 2000;
+      const duration = 2500;
       const startTime = performance.now();
       const label = num.nextElementSibling?.textContent || '';
       
       function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const easeOut = 1 - Math.pow(1 - progress, 4);
         const current = Math.floor(target * easeOut);
         
         if (label.includes('满意度')) {
@@ -755,7 +1237,6 @@ body {
     });
   }
   
-  // 滚动触发动画
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -770,7 +1251,6 @@ body {
 </script>
 `;
 
-  // 使用共享模板生成页面
   return generatePage({
     title: siteName,
     content,

@@ -627,11 +627,7 @@ body {
   
   <!-- 统计面板 -->
   <section class="stats-section">
-    <div class="section-header">
-      <span class="section-icon">📊</span>
-      <h2 class="section-title">记录统计</h2>
-      <span class="section-badge">实时更新</span>
-    </div>
+    
     <div class="stats-grid">
       ${statsHtml}
     </div>
@@ -639,38 +635,12 @@ body {
   
   <!-- 功能卡片区 -->
   <section class="features-section">
-    <div class="section-header">
-      <span class="section-icon">🎯</span>
-      <h2 class="section-title">开始记录</h2>
-      <span class="section-badge">${featureList.length} 个分类</span>
-    </div>
     <div class="features-grid">
       ${featuresHtml}
     </div>
   </section>
   
-  <!-- 快捷操作 -->
-  <section class="actions-section">
-    <div class="section-header">
-      <span class="section-icon">⚡</span>
-      <h2 class="section-title">快速操作</h2>
-      <span class="section-badge">常用功能</span>
-    </div>
-    <div class="actions-grid">
-      <a href="./accounting.html" class="action-btn action-btn-primary">
-        <span class="action-icon">💰</span>
-        <span class="action-text">快速记账</span>
-      </a>
-      <a href="./cate/food/" class="action-btn action-btn-secondary">
-        <span class="action-icon">🍽️</span>
-        <span class="action-text">记录美食</span>
-      </a>
-      <a href="./cate/diary/" class="action-btn action-btn-secondary">
-        <span class="action-icon">📝</span>
-        <span class="action-text">写日记</span>
-      </a>
-    </div>
-  </section>
+  
 </div>
 
 <!-- 粒子背景 -->

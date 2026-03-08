@@ -928,7 +928,7 @@ body {
   const featuresHtml = featureList.map((f, index) => `
     <a href="${f.href}" 
        class="feature-card" 
-       style="--card-color: ${f.color}; --card-glow: ${f.color}22; animation-delay: ${index * 0.1}s">
+       >
       <div class="feature-header">
         <span class="feature-tag${f.tagNew ? ' new' : ''}">${f.tag}</span>
         <span class="feature-icon">${f.icon}</span>

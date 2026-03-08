@@ -115,19 +115,14 @@ function generateTail() {
 /**
  * 生成完整页面（简化版）
  */
-function generatePage({ title, content, nav = true, breadcrumb = [], header = '', footer = true, currentPage = '' }) {
-  let html = generateHead(title);
+function generatePage({ title, content, nav = true, header = '', footer = true, currentPage = '', extraCss = '' }) {
+  let html = generateHead(title, extraCss);
   
   html += '<div class="frieren-container">';
   
   // 导航
   if (nav) {
     html += generateNav(currentPage);
-  }
-  
-  // 面包屑
-  if (breadcrumb.length > 0) {
-    html += generateBreadcrumb(breadcrumb);
   }
   
   // 页面头部
@@ -161,7 +156,6 @@ module.exports = {
   navLinks,
   generateHead,
   generateNav,
-  generateBreadcrumb,
   generateHeader,
   generateFooter,
   generateTail,

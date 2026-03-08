@@ -399,7 +399,21 @@ a:hover {
     transition-duration: 0.01ms !important;
   }
 }
-</style>
+
+
+    .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; }
+    .folder-card { display: flex; flex-direction: column; align-items: center; padding: 30px 20px; background: #1a1a24; border-radius: 14px; text-decoration: none; color: #fff; transition: all 0.2s; border: 1px solid #2a2a3a; }
+    .folder-card:hover { background: #2a2a3a; transform: translateY(-4px); box-shadow: 0 8px 24px rgba(155,126,189,0.25); border-color: #9B7EBD; }
+    .folder-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .folder-name { font-size: 1.1rem; font-weight: 600; }
+    .folder-count { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
+    .file-card { display: flex; align-items: center; padding: 20px; background: #1e1e2a; border-radius: 12px; text-decoration: none; color: #fff; transition: all 0.2s; border: 1px solid #2a2a3a; }
+    .file-card:hover { background: #2a2a3a; transform: translateY(-2px); border-color: #9B7EBD; }
+    .file-icon { font-size: 1.5rem; margin-right: 10px; }
+    .file-name { font-size: 0.95rem; color: #ddd; }
+    .empty-state { text-align: center; padding: 60px 20px; color: #666; }
+  </style>
 </head>
 <body><div class="frieren-container"><nav class="frieren-nav">
     <div class="brand">
@@ -409,9 +423,7 @@ a:hover {
     <div class="nav-links">
       <a href="https://viviclaw.github.io/folian/" class="nav-link ">🏠 首页</a><a href="https://viviclaw.github.io/folian/cate/" class="nav-link ">📰 资讯</a><a href="https://viviclaw.github.io/folian/accounting.html" class="nav-link ">💰 记账</a>
     </div>
-  </nav><div class="frieren-breadcrumb">
-    <a href="https://viviclaw.github.io/folian/">🏠 首页</a> > <span class="current">分类</span>
-  </div><header class="frieren-header">
+  </nav><header class="frieren-header">
     <h1>📂 分类</h1>
     <p class="subtitle">文件列表</p>
   </header>

@@ -89,10 +89,10 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background: var(--bg-card);
+  /* background: var(--bg-card); */
   border-radius: var(--radius-lg);
   margin-bottom: 24px;
-  border: 1px solid var(--border-color);
+  /* border: 1px solid var(--border-color); */
 }
 
 .frieren-nav .brand {
@@ -401,19 +401,647 @@ a:hover {
 }
 
 
-    .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 20px; }
-    .folder-card { display: flex; flex-direction: column; align-items: center; padding: 30px 20px; background: #1a1a24; border-radius: 14px; text-decoration: none; color: #fff; transition: all 0.2s; border: 1px solid #2a2a3a; }
-    .folder-card:hover { background: #2a2a3a; transform: translateY(-4px); box-shadow: 0 8px 24px rgba(155,126,189,0.25); border-color: #9B7EBD; }
-    .folder-icon { font-size: 2.5rem; margin-bottom: 10px; }
-    .folder-name { font-size: 1.1rem; font-weight: 600; }
-    .folder-count { font-size: 0.85rem; color: #888; margin-top: 4px; }
-    .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
-    .file-card { display: flex; align-items: center; padding: 20px; background: #1e1e2a; border-radius: 12px; text-decoration: none; color: #fff; transition: all 0.2s; border: 1px solid #2a2a3a; }
-    .file-card:hover { background: #2a2a3a; transform: translateY(-2px); border-color: #9B7EBD; }
-    .file-icon { font-size: 1.5rem; margin-right: 10px; }
-    .file-name { font-size: 0.95rem; color: #ddd; }
-    .empty-state { text-align: center; padding: 60px 20px; color: #666; }
-  </style>
+/* ==================== 统计卡片 ==================== */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.15), 
+    rgba(59, 130, 246, 0.1)
+  );
+  border-radius: 16px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #a78bfa;
+  margin-top: 4px;
+}
+
+/* ==================== 区块标题 ==================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.12), 
+    rgba(236, 72, 153, 0.08)
+  );
+  border-radius: 16px;
+  border-left: 4px solid #8b5cf6;
+  margin: 32px 0 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.08), 
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.section-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.section-info {
+  flex: 1;
+}
+
+.section-title {
+  margin: 0;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  margin: 0;
+  color: #a78bfa;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.section-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.badge-count {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.badge-text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ==================== 魔法领域网格 ==================== */
+.realm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.realm-card {
+  position: relative;
+  display: block;
+  padding: 32px;
+  background: linear-gradient(145deg, #1e1e2e, #16213e);
+  border-radius: 24px;
+  text-decoration: none;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out backwards;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 背景图案 */
+.realm-bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+/* 光晕效果 */
+.realm-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.2) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.realm-card:hover .realm-glow {
+  opacity: 1;
+}
+
+.realm-card:hover .realm-bg-pattern {
+  opacity: 1;
+}
+
+.realm-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    #8b5cf6, 
+    #ec4899, 
+    #8b5cf6
+  );
+  opacity: 0.6;
+}
+
+.realm-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 
+    0 16px 48px rgba(139, 92, 246, 0.3),
+    0 0 0 1px rgba(139, 92, 246, 0.3);
+}
+
+.realm-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 图标容器 */
+.realm-icon-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.realm-icon {
+  font-size: 3.5rem;
+  display: block;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.realm-card:hover .realm-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* 粒子效果 */
+.realm-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: 0.8rem;
+  color: #a78bfa;
+  opacity: 0;
+  animation: particleFloat 3s ease-in-out infinite;
+}
+
+.particle:nth-child(1) { top: 0; left: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+.particle:nth-child(3) { bottom: 10%; left: 30%; animation-delay: 1s; }
+.particle:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 1.5s; }
+
+@keyframes particleFloat {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(0.8); }
+  50% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+}
+
+.realm-card:hover .particle {
+  opacity: 1;
+}
+
+/* 领域信息 */
+.realm-info {
+  margin-bottom: 20px;
+}
+
+.realm-name {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.realm-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* 行动按钮 */
+.realm-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.action-text {
+  font-size: 0.95rem;
+  color: #a78bfa;
+  font-weight: 500;
+}
+
+.action-arrow {
+  color: #a78bfa;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.realm-card:hover .action-arrow {
+  transform: translateX(8px);
+}
+
+/* ==================== 魔法卷轴网格 ==================== */
+.scroll-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.scroll-card {
+  position: relative;
+  display: block;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, 
+    rgba(30, 30, 46, 0.8), 
+    rgba(22, 33, 62, 0.6)
+  );
+  border-radius: 16px;
+  text-decoration: none;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out backwards;
+  transition: all 0.3s ease;
+}
+
+.scroll-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at left center,
+    rgba(139, 92, 246, 0.15) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-card:hover .scroll-glow {
+  opacity: 1;
+}
+
+.scroll-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-card:hover::before {
+  opacity: 1;
+}
+
+.scroll-card:hover {
+  transform: translateX(8px);
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.15), 
+    rgba(22, 33, 62, 0.8)
+  );
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+
+.scroll-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 卷轴图标 */
+.scroll-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.scroll-icon {
+  font-size: 2.2rem;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.scroll-card:hover .scroll-icon {
+  transform: scale(1.1);
+}
+
+.scroll-number {
+  position: absolute;
+  bottom: -6px;
+  right: -8px;
+  font-size: 0.7rem;
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.2);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* 卷轴信息 */
+.scroll-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.scroll-title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e0e7ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.scroll-card:hover .scroll-title {
+  color: #fff;
+}
+
+.scroll-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.meta-divider {
+  color: rgba(139, 92, 246, 0.3);
+}
+
+/* 行动图标 */
+.scroll-action {
+  flex-shrink: 0;
+}
+
+.action-icon {
+  display: block;
+  font-size: 1.5rem;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.scroll-card:hover .action-icon {
+  opacity: 1;
+  transform: scale(1.2) rotate(15deg);
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, 
+    rgba(30, 30, 46, 0.5), 
+    rgba(22, 33, 62, 0.3)
+  );
+  border-radius: 24px;
+  border: 2px dashed rgba(139, 92, 246, 0.3);
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.empty-illustration {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+.empty-sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.2rem;
+  color: #a78bfa;
+  animation: sparkleFloat 2s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+.sparkle:nth-child(2) { top: 30%; right: 25%; animation-delay: 0.5s; }
+.sparkle:nth-child(3) { bottom: 20%; left: 30%; animation-delay: 1s; }
+.sparkle:nth-child(4) { bottom: 30%; right: 20%; animation-delay: 1.5s; }
+
+@keyframes sparkleFloat {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: translateY(0) scale(0.8);
+  }
+  50% { 
+    opacity: 1;
+    transform: translateY(-15px) scale(1.2);
+  }
+}
+
+.empty-content {
+  position: relative;
+  z-index: 1;
+}
+
+.empty-title {
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.empty-description {
+  margin: 0;
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 16px 20px;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+  
+  .section-left {
+    width: 100%;
+  }
+  
+  .section-badge {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .realm-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .realm-card {
+    padding: 24px;
+  }
+  
+  .realm-icon {
+    font-size: 3rem;
+  }
+  
+  .scroll-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .scroll-content {
+    flex-wrap: wrap;
+  }
+  
+  .scroll-info {
+    width: 100%;
+  }
+}
+
+/* ==================== 暗色模式优化 ==================== */
+@media (prefers-color-scheme: dark) {
+  .realm-card,
+  .scroll-card {
+    background: linear-gradient(145deg, #0a0a14, #1a1a2e);
+  }
+}
+</style>
 </head>
 <body><div class="frieren-container"><nav class="frieren-nav">
     <div class="brand">
@@ -424,25 +1052,109 @@ a:hover {
       <a href="https://viviclaw.github.io/folian/" class="nav-link ">🏠 首页</a><a href="https://viviclaw.github.io/folian/cate/" class="nav-link ">📰 资讯</a><a href="https://viviclaw.github.io/folian/accounting.html" class="nav-link ">💰 记账</a>
     </div>
   </nav><header class="frieren-header">
-    <h1>📂 20260308</h1>
-    <p class="subtitle">文件列表</p>
+    <h1>🔮 20260308</h1>
+    <p class="subtitle">探索魔法世界的奥秘</p>
   </header>
-      <h3 style="margin:30px 0 16px;color:#9B7EBD">📄 文件列表</h3>
-      <div class="file-grid">
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">🌌</div>
+        <div class="stat-content">
+          <div class="stat-number">0</div>
+          <div class="stat-label">探索领域</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📜</div>
+        <div class="stat-content">
+          <div class="stat-number">3</div>
+          <div class="stat-label">典藏卷轴</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✨</div>
+        <div class="stat-content">
+          <div class="stat-number">3</div>
+          <div class="stat-label">总计宝藏</div>
+        </div>
+      </div>
+    </div>
+  
+      <div class="section-header">
+        <div class="section-left">
+          <span class="section-icon">📜</span>
+          <div class="section-info">
+            <h3 class="section-title">典藏卷轴</h3>
+            <p class="section-subtitle">点击展开阅读魔法秘典</p>
+          </div>
+        </div>
+        <div class="section-badge">
+          <span class="badge-count">3</span>
+          <span class="badge-text">份卷轴</span>
+        </div>
+      </div>
+      <div class="scroll-grid">
         
-            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-AI时代发展趋势深度分析.html" class="file-card">
-              <span class="file-icon">📄</span>
-              <span class="file-name">20260308-AI时代发展趋势深度分析</span>
+            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-AI时代发展趋势深度分析.html" class="scroll-card" style="animation-delay: 0s">
+              <div class="scroll-glow"></div>
+              <div class="scroll-content">
+                <div class="scroll-icon-wrapper">
+                  <span class="scroll-icon">📜</span>
+                  <span class="scroll-number">#1</span>
+                </div>
+                <div class="scroll-info">
+                  <h4 class="scroll-title">20260308-AI时代发展趋势深度分析</h4>
+                  <div class="scroll-meta">
+                    <span class="meta-item">📖 阅读</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">魔法秘典</span>
+                  </div>
+                </div>
+                <div class="scroll-action">
+                  <span class="action-icon">✨</span>
+                </div>
+              </div>
             </a>
           
-            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-国内新闻深度分析.html" class="file-card">
-              <span class="file-icon">📄</span>
-              <span class="file-name">20260308-国内新闻深度分析</span>
+            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-国内新闻深度分析.html" class="scroll-card" style="animation-delay: 0.08s">
+              <div class="scroll-glow"></div>
+              <div class="scroll-content">
+                <div class="scroll-icon-wrapper">
+                  <span class="scroll-icon">📜</span>
+                  <span class="scroll-number">#2</span>
+                </div>
+                <div class="scroll-info">
+                  <h4 class="scroll-title">20260308-国内新闻深度分析</h4>
+                  <div class="scroll-meta">
+                    <span class="meta-item">📖 阅读</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">魔法秘典</span>
+                  </div>
+                </div>
+                <div class="scroll-action">
+                  <span class="action-icon">✨</span>
+                </div>
+              </div>
             </a>
           
-            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-国际新闻深度分析.html" class="file-card">
-              <span class="file-icon">📄</span>
-              <span class="file-name">20260308-国际新闻深度分析</span>
+            <a href="https://viviclaw.github.io/folian/cate/20260308/20260308-国际新闻深度分析.html" class="scroll-card" style="animation-delay: 0.16s">
+              <div class="scroll-glow"></div>
+              <div class="scroll-content">
+                <div class="scroll-icon-wrapper">
+                  <span class="scroll-icon">📜</span>
+                  <span class="scroll-number">#3</span>
+                </div>
+                <div class="scroll-info">
+                  <h4 class="scroll-title">20260308-国际新闻深度分析</h4>
+                  <div class="scroll-meta">
+                    <span class="meta-item">📖 阅读</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item">魔法秘典</span>
+                  </div>
+                </div>
+                <div class="scroll-action">
+                  <span class="action-icon">✨</span>
+                </div>
+              </div>
             </a>
           
       </div>

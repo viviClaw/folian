@@ -155,12 +155,7 @@ body {
   padding: 70px 30px 60px;
   margin-bottom: 60px;
   position: relative;
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.08), 
-    rgba(236, 72, 153, 0.05)
-  );
   border-radius: 32px;
-  border: 1px solid rgba(139, 92, 246, 0.15);
   overflow: hidden;
 }
 
@@ -1081,51 +1076,51 @@ body {
   </section>
   
   <!-- 今日推荐 -->
-  <section class="today-section">
-    <div class="section-header">
-      <span class="section-icon">✨</span>
-      <h2 class="section-title">今日推荐</h2>
-      <span class="section-badge">精选内容</span>
-    </div>
-    <div class="today-grid">
-      ${todayHtml}
-    </div>
-  </section>
+  // <section class="today-section">
+  //   <div class="section-header">
+  //     <span class="section-icon">✨</span>
+  //     <h2 class="section-title">今日推荐</h2>
+  //     <span class="section-badge">精选内容</span>
+  //   </div>
+  //   <div class="today-grid">
+  //     ${todayHtml}
+  //   </div>
+  // </section>
   
   <!-- 快捷操作 -->
-  <section class="actions-section">
-    <div class="section-header">
-      <span class="section-icon">⚡</span>
-      <h2 class="section-title">快速通道</h2>
-      <span class="section-badge">常用功能</span>
-    </div>
-    <div class="actions-grid">
-      <a href="./accounting.html" class="action-btn action-btn-primary">
-        <span class="action-icon">💰</span>
-        <span class="action-text">快速记账</span>
-      </a>
-      <a href="./food/" class="action-btn action-btn-secondary">
-        <span class="action-icon">🍽️</span>
-        <span class="action-text">记录美食</span>
-      </a>
-      <a href="./cate/" class="action-btn action-btn-secondary">
-        <span class="action-icon">📚</span>
-        <span class="action-text">浏览全部</span>
-      </a>
-    </div>
-  </section>
+  // <section class="actions-section">
+  //   <div class="section-header">
+  //     <span class="section-icon">⚡</span>
+  //     <h2 class="section-title">快速通道</h2>
+  //     <span class="section-badge">常用功能</span>
+  //   </div>
+  //   <div class="actions-grid">
+  //     <a href="./accounting.html" class="action-btn action-btn-primary">
+  //       <span class="action-icon">💰</span>
+  //       <span class="action-text">快速记账</span>
+  //     </a>
+  //     <a href="./food/" class="action-btn action-btn-secondary">
+  //       <span class="action-icon">🍽️</span>
+  //       <span class="action-text">记录美食</span>
+  //     </a>
+  //     <a href="./cate/" class="action-btn action-btn-secondary">
+  //       <span class="action-icon">📚</span>
+  //       <span class="action-text">浏览全部</span>
+  //     </a>
+  //   </div>
+  // </section>
   
   <!-- 时光轴 -->
-  <section class="timeline-section">
-    <div class="section-header">
-      <span class="section-icon">⏰</span>
-      <h2 class="section-title">魔法旅程</h2>
-      <span class="section-badge">时光记录</span>
-    </div>
-    <div class="timeline-grid">
-      ${timelineHtml}
-    </div>
-  </section>
+  // <section class="timeline-section">
+  //   <div class="section-header">
+  //     <span class="section-icon">⏰</span>
+  //     <h2 class="section-title">魔法旅程</h2>
+  //     <span class="section-badge">时光记录</span>
+  //   </div>
+  //   <div class="timeline-grid">
+  //     ${timelineHtml}
+  //   </div>
+  // </section>
 </div>
 
 <!-- 粒子背景 -->

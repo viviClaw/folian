@@ -5,8 +5,8 @@
 
 // 粒子效果配置
 const particleConfig = {
-  count: 30,           // 粒子数量（比首页少，优化性能）
-  connectionDistance: 100,
+  count: 50,           // 粒子数量（比首页少，优化性能）
+  connectionDistance: 120,
   color: '155, 126, 189'  // 紫色
 };
 

@@ -1,81 +1,845 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>芙莉莲记账</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit','Noto Sans SC',sans-serif;background:#0a0a0f;color:#fff;min-height:100vh;padding:20px}
-.x{max-width:800px;margin:0 auto}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.back{color:#888;font-size:0.9rem;text-decoration:none}
-h1{font-size:1.5rem;background:linear-gradient(135deg,#9B7EBD,#7c5ce0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
-.c{background:#1a1a24;border-radius:14px;padding:14px}
-.c.tot{grid-column:span 2;background:linear-gradient(135deg,rgba(155,126,189,0.2),rgba(168,230,207,0.2))}
-.l{font-size:0.7rem;color:#888;margin-bottom:6px}
-.v{font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#9B7EBD,#7c5ce0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.c.tot .v{font-size:1.8rem}
-.ch{font-size:0.7rem;padding:2px 6px;border-radius:10px;margin-top:4px;display:inline-block}
-.ch.up{background:rgba(248,113,113,0.2);color:#f87171}
-.ch.down{background:rgba(74,222,128,0.2);color:#4ade80}
-.m{font-size:0.65rem;color:#666;margin-top:4px}
-.y{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
-.s{display:flex;gap:4px;background:#1a1a24;padding:4px;border-radius:10px}
-.bt{padding:8px 14px;border:none;background:0 0;color:#888;font-size:0.85rem;cursor:pointer;border-radius:8px}
-.bt.active{background:linear-gradient(135deg,#9B7EBD,#7c5ce0);color:#fff}
-.t{display:flex;align-items:center;gap:10px;background:#1a1a24;padding:6px 10px;border-radius:8px}
-.t button{background:0;border:none;color:#fff;cursor:pointer;font-size:1rem}
-.t span{font-size:0.9rem;min-width:80px;text-align:center}
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.cc{background:#1a1a24;border-radius:14px;padding:14px}
-.cc h3{font-size:1rem;font-weight:600;margin-bottom:10px}
-.list{background:#1a1a24;border-radius:14px;padding:14px}
-.list h3{font-size:1rem;font-weight:600;margin-bottom:10px}
-.rl{max-height:300px;overflow-y:auto}
-.ri{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid #22222e}
-.ri:last-child{border:0}
-.ri2{font-size:1.2rem;margin-right:10px}
-.ri3{flex:1}
-.ri4{font-size:0.85rem;font-weight:500}
-.ri5{font-size:0.7rem;color:#666}
-.ri6{font-size:0.7rem;color:#666;margin-right:10px}
-.ri7{font-size:0.9rem;font-weight:600;color:#9B7EBD}
-@media(max-width:600px){.charts{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>芙莉莲记账 - Frieren</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>/**
+ * Frieren 共享全局样式系统
+ * 所有子项目统一引用此样式，实现一体化视觉效果
+ */
+
+/* ========== CSS 变量 ========== */
+:root {
+  /* 主题色 */
+  --primary: #9B7EBD;
+  --primary-light: #B794F6;
+  --primary-dark: #7c5ce0;
+  --accent: #e056fd;
+  --accent-cyan: #00d9ff;
+  
+  /* 背景 */
+  --bg-dark: #0a0a0f;
+  --bg-card: #1a1a24;
+  --bg-card-hover: #2a2a3a;
+  --bg-gradient: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-dark) 70%);
+  
+  /* 文字 */
+  --text-primary: #fff;
+  --text-secondary: #aaa;
+  --text-muted: #666;
+  
+  /* 边框 */
+  --border-color: #2a2a3a;
+  --border-glow: rgba(155, 126, 189, 0.3);
+  
+  /* 阴影 */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 40px rgba(155, 126, 189, 0.15);
+  
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  
+  /* 字体 */
+  --font-family: 'Outfit', -apple-system, 'Noto Sans SC', sans-serif;
+}
+
+/* ========== 全局重置 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* ========== 布局容器 ========== */
+.frieren-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ========== 导航栏 ========== */
+.frieren-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  /* background: var(--bg-card); */
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  /* border: 1px solid var(--border-color); */
+}
+
+.frieren-nav .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.frieren-nav .brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(155, 126, 189, 0.3);
+}
+
+.frieren-nav .brand-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.frieren-nav .nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.frieren-nav .nav-link {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.frieren-nav .nav-link:hover,
+.frieren-nav .nav-link.active {
+  background: rgba(155, 126, 189, 0.15);
+  color: var(--primary);
+}
+
+/* ========== 面包屑 ========== */
+.frieren-breadcrumb {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.frieren-breadcrumb a {
+  color: var(--primary);
+}
+
+.frieren-breadcrumb a:hover {
+  color: var(--accent);
+}
+
+.frieren-breadcrumb .current {
+  color: var(--text-primary);
+}
+
+/* ========== 页面标题 ========== */
+.frieren-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.frieren-header h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.frieren-header .subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ========== 卡片 ========== */
+.frieren-card {
+  background: linear-gradient(145deg, #1e1e2a, #16161f);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.frieren-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* ========== 按钮 ========== */
+.frieren-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.frieren-btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(155, 126, 189, 0.3);
+}
+
+.frieren-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(155, 126, 189, 0.4);
+}
+
+.frieren-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.frieren-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 标签 ========== */
+.frieren-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  background: rgba(155, 126, 189, 0.2);
+  color: var(--primary);
+  border: 1px solid rgba(155, 126, 189, 0.3);
+}
+
+.frieren-tag-new {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* ========== 统计卡片 ========== */
+.frieren-stat {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.frieren-stat:hover {
+  background: var(--bg-card-hover);
+}
+
+.frieren-stat .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.frieren-stat .label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ========== 列表 ========== */
+.frieren-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.frieren-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.frieren-list-item:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-glow);
+}
+
+/* ========== 表格 ========== */
+.frieren-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.frieren-table th,
+.frieren-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.frieren-table th {
+  background: linear-gradient(90deg, rgba(155, 126, 189, 0.1), transparent);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.frieren-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ========== 底部 ========== */
+.frieren-footer {
+  text-align: center;
+  padding: 30px;
+  margin-top: 40px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.frieren-footer .made-with {
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+/* ========== 工具类 ========== */
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted); }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-2 { gap: 8px; }
+.gap-4 { gap: 16px; }
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+  .frieren-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .frieren-nav .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .frieren-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .frieren-container {
+    padding: 12px;
+  }
+  
+  .grid-2,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== 减少动画 (可访问性) ========== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ========== 记账页面样式 ========== */
+.accounting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.accounting-header .back-link {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.accounting-header .back-link:hover {
+  color: var(--primary);
+}
+
+/* 统计卡片网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.stat-card.total {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(155,126,189,0.15), rgba(0,217,255,0.1));
+  border-color: rgba(155,126,189,0.3);
+}
+
+.stat-card .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.stat-card .stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-card.total .stat-value {
+  font-size: 2rem;
+}
+
+.stat-card .stat-change {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.stat-card .stat-change.up {
+  background: rgba(248,113,113,0.2);
+  color: #f87171;
+}
+
+.stat-card .stat-change.down {
+  background: rgba(74,222,128,0.2);
+  color: #4ade80;
+}
+
+.stat-card .stat-meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* 时间筛选器 */
+.time-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-card);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.filter-tab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.filter-tab:hover {
+  color: var(--text-primary);
+}
+
+.filter-tab.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+}
+
+.time-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.time-nav button {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.time-nav button:hover {
+  color: var(--primary);
+}
+
+.time-nav span {
+  font-size: 0.9rem;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* 图表区域 */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.chart-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.chart-container {
+  height: 200px;
+}
+
+/* 消费明细 */
+.records-list {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.records-list h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.records-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.2s;
+}
+
+.record-item:last-child {
+  border: none;
+}
+
+.record-item:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.record-icon {
+  font-size: 1.3rem;
+  margin-right: 12px;
+}
+
+.record-info {
+  flex: 1;
+}
+
+.record-category {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.record-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.record-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-right: 12px;
+}
+
+.record-amount {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    gap: 10px;
+  }
+  
+  .stat-card .stat-value {
+    font-size: 1.3rem;
+  }
+  
+  .stat-card.total .stat-value {
+    font-size: 1.6rem;
+  }
+}
+
+/* 滚动条美化 */
+.records-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.records-scroll::-webkit-scrollbar-track {
+  background: rgba(155,126,189,0.1);
+  border-radius: 3px;
+}
+
+.records-scroll::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+    #frieren-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    #frieren-scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #9B7EBD, #00d9ff); z-index: 9999; transition: width 0.1s ease; }
+    .frieren-container { position: relative; z-index: 1; }
+  </style>
 </head>
-<body>
-<div class="x">
-<header><a href="index.html" class="back">← 返回首页</a><h1>💰 芙莉莲记账</h1></header>
-<div class="g">
-<div class="c tot"><div class="l">💰 总支出</div><div class="v" id="ta">¥0</div><div class="ch" id="tc">-</div><div class="m" id="rc">共 0 笔</div></div>
-<div class="c"><div class="l">📅 日均</div><div class="v" id="avd">¥0</div></div>
-<div class="c"><div class="l">📊 周均</div><div class="v" id="av">¥0</div></div>
-<div class="c"><div class="l">🏆 最高</div><div class="v" id="ma">¥0</div></div>
-<div class="c"><div class="l">📁 类别</div><div class="v" id="cc">0</div></div>
+<body><div class="frieren-container">
+<div class="accounting-header">
+  <a href="https://viviclaw.github.io/folian/" class="back-link">← 返回首页</a>
+  <h1 style="font-size:1.5rem;background:linear-gradient(135deg,var(--primary),var(--primary-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">💰 芙莉莲记账</h1>
 </div>
-<div class="y">
-<div class="s">
-<button class="bt" data-p="day">日</button>
-<button class="bt" data-p="week">周</button>
-<button class="bt" data-p="month">月</button>
-<button class="bt" data-p="year">年</button>
+
+<div class="stats-grid">
+  <div class="stat-card total">
+    <div class="stat-label">💰 总支出</div>
+    <div class="stat-value" id="ta">¥0</div>
+    <div class="stat-change" id="tc">-</div>
+    <div class="stat-meta" id="rc">共 0 笔</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">📅 日均</div>
+    <div class="stat-value" id="avd">¥0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">📊 周均</div>
+    <div class="stat-value" id="av">¥0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">🏆 最高单笔</div>
+    <div class="stat-value" id="ma">¥0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">📁 类别</div>
+    <div class="stat-value" id="cc">0</div>
+  </div>
 </div>
-<div class="t">
-<button id="prev">◀</button>
-<span id="disp">第11周</span>
-<button id="next">▶</button>
+
+<div class="time-filter">
+  <div class="filter-tabs">
+    <button class="filter-tab" data-p="day">日</button>
+    <button class="filter-tab" data-p="week">周</button>
+    <button class="filter-tab" data-p="month">月</button>
+    <button class="filter-tab" data-p="year">年</button>
+  </div>
+  <div class="time-nav">
+    <button id="prev">◀</button>
+    <span id="disp">第11周</span>
+    <button id="next">▶</button>
+  </div>
 </div>
+
+<div class="charts-grid">
+  <div class="chart-card">
+    <h3>📈 支出趋势</h3>
+    <div id="trend-chart" class="chart-container"></div>
+  </div>
+  <div class="chart-card">
+    <h3>🥧 分类占比</h3>
+    <div id="pie-chart" class="chart-container"></div>
+  </div>
 </div>
-<div class="charts">
-<div class="cc"><h3>📈 支出趋势</h3><div id="trend-chart" style="height:200px"></div></div>
-<div class="cc"><h3>🥧 分类占比</h3><div id="pie-chart" style="height:200px"></div></div>
+
+<div class="records-list">
+  <h3>📝 消费明细</h3>
+  <div class="records-scroll" id="rl"></div>
 </div>
-<div class="list"><h3>📝 消费明细</h3><div class="rl" id="rl"></div></div>
-</div>
+<footer class="frieren-footer">
+    <p>与芙莉莲一同探索数据的魔法世界</p>
+    <p class="made-with">Made with ✨ & 🍙</p>
+  </footer></div><div id="frieren-scroll-progress" style="position:fixed;top:0;left:0;width:0%;height:3px;background:linear-gradient(90deg,#9B7EBD,#00d9ff);z-index:9999;transition:width 0.1s ease;"></div><canvas id="frieren-particles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas><script>
+(function() {
+  // ========== 滚动进度条 ==========
+  const progressBar = document.getElementById('frieren-scroll-progress');
+  if (progressBar) {
+    window.addEventListener('scroll', function() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+    });
+  }
+  
+  // ========== 粒子效果 ==========
+  var canvas = document.getElementById('frieren-particles');
+  if (!canvas) return;
+  
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var animationId;
+  
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  
+  function createParticles() {
+    particles = [];
+    for (var i = 0; i < 30; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.4 + 0.2
+      });
+    }
+  }
+  
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach(function(p, i) {
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(155, 126, 189, ' + p.opacity + ')';
+      ctx.fill();
+      
+      // 连线
+      particles.slice(i + 1).forEach(function(p2) {
+        var dx = p.x - p2.x;
+        var dy = p.y - p2.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 100) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(155, 126, 189, ' + (1 - distance / 100) * 0.15 + ')';
+          ctx.lineWidth = 1;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      });
+    });
+    
+    animationId = requestAnimationFrame(drawParticles);
+  }
+  
+  // 初始化
+  resize();
+  createParticles();
+  drawParticles();
+  
+  window.addEventListener('resize', function() {
+    resize();
+    createParticles();
+  });
+  
+  // 减少动画
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    if (animationId) cancelAnimationFrame(animationId);
+  }
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <script>
 var D = {"records":[{"id":"1","date":"2026-01-05","amount":128,"category":"购物","note":"网购衣服"},{"id":"2","date":"2026-01-12","amount":2800,"category":"住房","note":"房租"},{"id":"3","date":"2026-01-20","amount":88,"category":"购物","note":"日用品"},{"id":"4","date":"2026-01-25","amount":450,"category":"交通","note":"回家机票"},{"id":"5","date":"2026-02-05","amount":299,"category":"购物","note":"鞋子"},{"id":"6","date":"2026-02-14","amount":1314,"category":"购物","note":"情人节礼物"},{"id":"7","date":"2026-02-20","amount":168,"category":"医疗","note":"体检"},{"id":"8","date":"2026-02-25","amount":3200,"category":"住房","note":"房租+水电"},{"id":"9","date":"2026-03-05","amount":18,"category":"交通","note":"打车"},{"id":"10","date":"2026-03-05","amount":50,"category":"餐饮","note":"吃饭"},{"id":"11","date":"2026-03-05","amount":25,"category":"餐饮","note":"晚饭"},{"id":"1772764527472","date":"2026-03-06","amount":16.3,"category":"交通","note":"早上打车"},{"id":"1772766030707","date":"2026-03-06","amount":16.3,"category":"交通","note":"早上打车"},{"id":"1772814021738","date":"2026-03-06","amount":41,"category":"餐饮","note":"麦当劳"},{"id":"1772870520000","date":"2026-03-07","amount":105,"category":"餐饮","note":"叮咚买菜"},{"id":"1772884440000","date":"2026-03-07","amount":4100,"category":"住房","note":"房租"},{"id":"1772894820000","date":"2026-03-07","amount":48,"category":"餐饮","note":"奶茶"},{"id":"1772894821000","date":"2026-03-07","amount":99,"category":"购物","note":"睡衣"},{"id":"1772906640000","date":"2026-03-07","amount":182,"category":"餐饮","note":"晚饭"}],"categories":[{"name":"餐饮","icon":"🍽️","color":"#FF6B6B"},{"name":"交通","icon":"🚇","color":"#4ECDC4"},{"name":"购物","icon":"🛍️","color":"#FFE66D"},{"name":"住房","icon":"🏠","color":"#95E1D3"},{"name":"娱乐","icon":"🎬","color":"#DDA0DD"},{"name":"医疗","icon":"💊","color":"#98D8C8"},{"name":"教育","icon":"📚","color":"#F7DC6F"},{"name":"收入","icon":"💰","color":"#77DD77"},{"name":"其他","icon":"📦","color":"#B0BEC5"}],"stats":{"day":{"2026-01-05":{"t":128,"c":{"购物":128}},"2026-01-12":{"t":2800,"c":{"住房":2800}},"2026-01-20":{"t":88,"c":{"购物":88}},"2026-01-25":{"t":450,"c":{"交通":450}},"2026-02-05":{"t":299,"c":{"购物":299}},"2026-02-14":{"t":1314,"c":{"购物":1314}},"2026-02-20":{"t":168,"c":{"医疗":168}},"2026-02-25":{"t":3200,"c":{"住房":3200}},"2026-03-05":{"t":93,"c":{"交通":18,"餐饮":75}},"2026-03-06":{"t":73.6,"c":{"交通":32.6,"餐饮":41}},"2026-03-07":{"t":4534,"c":{"餐饮":335,"住房":4100,"购物":99}}},"week":{"2026-W02":{"t":128,"c":{"购物":128}},"2026-W03":{"t":2800,"c":{"住房":2800}},"2026-W04":{"t":88,"c":{"购物":88}},"2026-W05":{"t":450,"c":{"交通":450}},"2026-W06":{"t":299,"c":{"购物":299}},"2026-W07":{"t":1314,"c":{"购物":1314}},"2026-W08":{"t":168,"c":{"医疗":168}},"2026-W09":{"t":3200,"c":{"住房":3200}},"2026-W10":{"t":4700.6,"c":{"交通":50.599999999999994,"餐饮":451,"住房":4100,"购物":99}}},"month":{"2026-01":{"t":3466,"c":{"购物":216,"住房":2800,"交通":450}},"2026-02":{"t":4981,"c":{"购物":1613,"医疗":168,"住房":3200}},"2026-03":{"t":4700.6,"c":{"交通":50.599999999999994,"餐饮":451,"住房":4100,"购物":99}}},"year":{"2026":{"t":13147.599999999999,"c":{"购物":1928,"住房":10100,"交通":500.6,"医疗":168,"餐饮":451}}}},"dailyAvg":205};
 var P = "week", C = new Date(2026, 2, 8);
@@ -116,13 +880,13 @@ function init() {
   // 显示日均（固定值，总支出/总天数）
   document.getElementById("avd").textContent = "¥" + D.dailyAvg.toLocaleString();
   
-  document.querySelectorAll(".bt").forEach(function(b) {
+  document.querySelectorAll(".filter-tab").forEach(function(b) {
     if (b.getAttribute("data-p") === P) b.classList.add("active");
   });
   
-  document.querySelectorAll(".bt").forEach(function(b) {
+  document.querySelectorAll(".filter-tab").forEach(function(b) {
     b.onclick = function() {
-      document.querySelectorAll(".bt").forEach(function(x) { x.classList.remove("active"); });
+      document.querySelectorAll(".filter-tab").forEach(function(x) { x.classList.remove("active"); });
       this.classList.add("active");
       P = this.getAttribute("data-p");
       C = new Date(2026, 2, 8);
@@ -153,9 +917,9 @@ function U() {
   
   document.getElementById("ta").textContent = "¥" + t.toLocaleString();
   var ce = document.getElementById("tc");
-  if (P === "year") { ce.textContent = (c >= 0 ? "↑" : "↓") + " " + Math.abs(c).toFixed(1) + "%"; ce.className = "ch " + (c >= 0 ? "up" : "down"); }
-  else if (P === "month") { ce.textContent = (c >= 0 ? "↑" : "↓") + " " + Math.abs(c).toFixed(1) + "%"; ce.className = "ch " + (c >= 0 ? "up" : "down"); }
-  else { ce.textContent = "-"; ce.className = "ch"; }
+  if (P === "year") { ce.textContent = (c >= 0 ? "↑" : "↓") + " " + Math.abs(c).toFixed(1) + "%"; ce.className = "stat-change " + (c >= 0 ? "up" : "down"); }
+  else if (P === "month") { ce.textContent = (c >= 0 ? "↑" : "↓") + " " + Math.abs(c).toFixed(1) + "%"; ce.className = "stat-change " + (c >= 0 ? "up" : "down"); }
+  else { ce.textContent = "-"; ce.className = "stat-change"; }
   
   document.getElementById("rc").textContent = "共 " + Object.keys(d.c || {}).length + " 笔";
   document.getElementById("av").textContent = "¥" + Math.round(t / 7).toLocaleString();
@@ -201,7 +965,7 @@ function U() {
   var html = "";
   rs.forEach(function(r) {
     var c = D.categories.find(function(cat) { return cat.name === r.category; }) || {};
-    html += '<div class="ri"><span class="ri2">' + (c.icon || "📦") + '</span><div class="ri3"><div class="ri4">' + r.category + '</div><div class="ri5">' + (r.note || "-") + '</div></div><div class="ri6">' + r.date + '</div><div class="ri7">¥' + r.amount.toLocaleString() + '</div></div>';
+    html += '<div class="record-item"><span class="record-icon">' + (c.icon || "📦") + '</span><div class="record-info"><div class="record-category">' + r.category + '</div><div class="record-note">' + (r.note || "-") + '</div></div><div class="record-date">' + r.date + '</div><div class="record-amount">¥' + r.amount.toLocaleString() + '</div></div>';
   });
   document.getElementById("rl").innerHTML = html;
 }

@@ -1036,7 +1036,7 @@ body {
       <div class="avatar-ring"></div>
       <div class="avatar-glow"></div>
       <div class="avatar-core">
-        <img src="../assets/avatar.webp" alt="Avatar" style="width: 80%; height: 80%; border-radius: 50%;">
+        <img src="./assets/avatar.webp" alt="Avatar" style="width: 80%; height: 80%; border-radius: 50%;">
       </div>
     </div>
     
